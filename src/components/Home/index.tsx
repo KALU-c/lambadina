@@ -1,60 +1,19 @@
-import { Search } from "lucide-react"
-import { Input } from "../ui/input"
-import { Avatar, AvatarImage } from "../ui/avatar"
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
-import ExpertsCard from "./experts-card"
-import SectionIndicator from "./section-indicator"
+import ExpertsCard from "./layout/experts-card"
+import SectionIndicator from "./layout/section-indicator"
+import Business from "./Business"
+import Wellness from "./Wellness"
+import LegalAndCompliance from "./LegalAndCompliance"
+import TechAndDigital from "./TechAndDigital"
+import CreativeAndMedia from "./CreativeAndMedia"
+import SearchExperts from "./layout/search-experts"
+import ExpertsCarousel from "./layout/experts-carousel"
 
 const Home = () => {
   return (
     <div className="flex flex-col space-y-4">
-      {/* Search input */}
-      <div className="flex items-center bg-[#e5e7eb] px-2 pr-4 h-12 rounded-full">
-        <Input
-          placeholder="Search an expert"
-          className="border-0 focus-visible:ring-0 shadow-none"
-        />
-        <Search />
-      </div>
-
-      {/* Experts image carousel */}
-      <div className="flex flex-col gap-3 py-2">
-        <span className="text-muted-foreground text-3xl">Ethiopia’s Top Freelance Advisors at Your Fingertips!</span>
-
-        <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
-          <Avatar className="h-[96px] w-[96px]">
-            <AvatarImage
-              src="/images/p2.png"
-              alt="@shadcn"
-            />
-            {/* <AvatarFallback>CN</AvatarFallback> */}
-          </Avatar>
-
-          <Avatar className="h-[96px] w-[96px]">
-            <AvatarImage
-              src="/images/p3.png"
-              alt="@shadcn"
-            />
-            {/* <AvatarFallback>CN</AvatarFallback> */}
-          </Avatar>
-
-          <Avatar className="h-[96px] w-[96px]">
-            <AvatarImage
-              src="/images/p1.png"
-              alt="@shadcn"
-            />
-            {/* <AvatarFallback>CN</AvatarFallback> */}
-          </Avatar>
-
-          <Avatar className="h-[96px] w-[96px]">
-            <AvatarImage
-              src="/images/p2.png"
-              alt="@shadcn"
-            />
-            {/* <AvatarFallback>CN</AvatarFallback> */}
-          </Avatar>
-        </div>
-      </div>
+      <SearchExperts />
+      <ExpertsCarousel />
 
       {/* Experts Tab */}
       <div>
@@ -71,7 +30,6 @@ const Home = () => {
 
       </div>
 
-      {/* Section indicator */}
       <SectionIndicator
         highlightMainText={false}
         mainText="Top Experts."
@@ -93,10 +51,11 @@ const Home = () => {
         />
       </div>
 
-      <SectionIndicator
-        mainText="Business"
-        text="Launch smarter, grow faster - expert advice for your business!"
-      />
+      <Business />
+      <Wellness />
+      <LegalAndCompliance />
+      <TechAndDigital />
+      <CreativeAndMedia />
     </div>
   )
 }
