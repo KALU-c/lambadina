@@ -6,9 +6,9 @@ const Navbar = () => {
       <div className="flex flex-row gap-1 items-center">
         <ChevronLeft size={28} strokeWidth={3} />
         <img
-          src="/logo.svg"
+          src="/logo.png"
           alt="lambadina logo"
-          className="h-12 bg-red-200"
+          className="h-7"
         />
       </div>
 

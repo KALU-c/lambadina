@@ -58,8 +58,8 @@ const Footer = () => {
 
       <Separator className='bg-[#D8D8D8]' />
 
-      <span className='text-sm font-light'>
-        @ Lambadina 2025 {new Date().getFullYear()}. All rights reserved
+      <span className='text-sm font-light text-[#E8E4DF]'>
+        @ Lambadina {new Date().getFullYear()}. All rights reserved
       </span>
     </div>
   )
