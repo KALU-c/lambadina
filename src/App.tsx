@@ -1,11 +1,13 @@
-import { Button } from './components/ui/button'
+import Home from './components/Home'
+import Navbar from './components/navbar'
 
 function App() {
 
   return (
-    <>
-      <Button>Lambadina</Button>
-    </>
+    <main className='px-[22px] pt-[10px] flex flex-col space-y-5'>
+      <Navbar />
+      <Home />
+    </main>
   )
 }
 
