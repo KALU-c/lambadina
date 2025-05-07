@@ -7,12 +7,14 @@ import AboutMe from "./AboutMe";
 import Profile from "./Profile";
 import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
+import FAQ from "./FAQ-accordion";
+import Footer from "../Footer";
 
 const Details = () => {
   const { expertName } = useParams();
 
   return (
-    <main className='pt-[10px] flex flex-col mb-32'>
+    <main className='pt-[10px] flex flex-col'>
       <div className='px-[22px] flex flex-col space-y-6'>
         <DetailsNavbar />
 
@@ -53,7 +55,11 @@ const Details = () => {
         />
 
         <Separator />
+
+        <FAQ />
       </div>
+
+      <Footer />
     </main>
   )
 }
