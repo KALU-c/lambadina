@@ -1,18 +1,7 @@
 import {
   ChevronLeft,
-  Menu,
-  // User2 
 } from "lucide-react"
-import {
-  Sheet,
-  SheetTrigger,
-  // SheetDescription,
-  SheetContent,
-  SheetHeader,
-  // SheetTitle,
-  SheetFooter
-} from "@/components/ui/sheet"
-import { Button } from "./ui/button"
+import MenuSheet from "./menu-sheet"
 
 const Navbar = () => {
   return (
@@ -26,27 +15,7 @@ const Navbar = () => {
         />
       </div>
 
-      {/* <User2 size={28} strokeWidth={2} /> */}
-      <Sheet>
-        <SheetTrigger>
-          <Menu size={28} strokeWidth={2} />
-        </SheetTrigger>
-        <SheetContent>
-          <SheetHeader className="mt-10 gap-3">
-            <Button variant={'secondary'}>Find Mentor</Button>
-            <Button variant={'secondary'}>Categories</Button>
-            <Button variant={'secondary'}>About Us</Button>
-          </SheetHeader>
-          <SheetFooter>
-            <Button variant={'secondary'}>
-              Login
-            </Button>
-            <Button>
-              Sign Up
-            </Button>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+      <MenuSheet />
     </div>
   )
 }
