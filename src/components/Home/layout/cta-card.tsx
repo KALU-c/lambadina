@@ -10,7 +10,7 @@ const CtaCard = ({
   description
 }: CtaCardProps) => {
   return (
-    <div className="h-[360px] w-full bg-zinc-100 flex flex-col items-center justify-center rounded-[8px] gap-4">
+    <div className="h-[360px] w-full min-w-[330px] bg-zinc-100 flex flex-col items-center justify-center rounded-[8px] gap-4">
       <img
         src={src}
         className="h-[68px] w-[68px]"

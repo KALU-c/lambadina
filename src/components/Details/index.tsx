@@ -6,13 +6,14 @@ import { Button } from "../ui/button";
 import AboutMe from "./AboutMe";
 import Profile from "./Profile";
 import Pricing from "./Pricing";
+import CTA from "../Home/CTA";
 
 const Details = () => {
   const { expertName } = useParams();
 
   return (
     <main className='pt-[10px] flex flex-col mb-32'>
-      <div className='px-[22px] flex flex-col space-y-5'>
+      <div className='px-[22px] flex flex-col space-y-6'>
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg">
@@ -46,9 +47,13 @@ const Details = () => {
 
         <AboutMe />
         <Pricing />
+
+        <CTA
+          className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]"
+        />
+
+        <Separator />
       </div>
-
-
     </main>
   )
 }
