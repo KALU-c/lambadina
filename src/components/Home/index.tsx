@@ -1,8 +1,9 @@
-import { ArrowRight, Search } from "lucide-react"
+import { Search } from "lucide-react"
 import { Input } from "../ui/input"
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
 import ExpertsCard from "./experts-card"
+import SectionIndicator from "./section-indicator"
 
 const Home = () => {
   return (
@@ -71,16 +72,11 @@ const Home = () => {
       </div>
 
       {/* Section indicator */}
-      <div className="flex flex-col gap-3 py-2">
-        <div className="text-3xl text-muted-foreground">
-          <span className="text-black dark:text-white mr-2">Top Experts.</span>
-          Access to the best experts has never been easier
-        </div>
-        <div className="flex flex-row gap-2 text-xl items-center">
-          See all
-          <ArrowRight size={20} />
-        </div>
-      </div>
+      <SectionIndicator
+        highlightMainText={false}
+        mainText="Top Experts."
+        text="Access to the best experts has never been easier"
+      />
 
       <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
         <ExpertsCard
@@ -96,6 +92,11 @@ const Home = () => {
           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
         />
       </div>
+
+      <SectionIndicator
+        mainText="Business"
+        text="Launch smarter, grow faster - expert advice for your business!"
+      />
     </div>
   )
 }

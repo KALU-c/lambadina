@@ -4,6 +4,7 @@ import {
   CardContent,
 } from "../ui/card"
 import { useState } from "react"
+import { Badge } from "@/components/ui/badge"
 
 type ExpertsCardProps = {
   src: string
@@ -34,6 +35,12 @@ const ExpertsCard = ({
             fill={liked ? "red" : "transparent"}
             onClick={() => setLiked(!liked)}
           />
+          <Badge
+            className="absolute bottom-2 left-2"
+            variant={'secondary'}
+          >
+            Top Expert
+          </Badge>
         </div>
         <div>
           <h2 className="font-medium text-lg flex flex-row gap-[2px] items-center">
