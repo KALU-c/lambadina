@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ExpertsCard from "./layout/experts-card"
 import SectionIndicator from "./layout/section-indicator"
 import Business from "./Business"
@@ -8,6 +8,8 @@ import TechAndDigital from "./TechAndDigital"
 import CreativeAndMedia from "./CreativeAndMedia"
 import SearchExperts from "./layout/search-experts"
 import ExpertsCarousel from "./layout/experts-carousel"
+import { Separator } from "@/components/ui/separator"
+import CTA from "./CTA"
 
 const Home = () => {
   return (
@@ -56,6 +58,10 @@ const Home = () => {
       <LegalAndCompliance />
       <TechAndDigital />
       <CreativeAndMedia />
+
+      <Separator orientation="horizontal" className="border" />
+
+      <CTA />
     </div>
   )
 }
