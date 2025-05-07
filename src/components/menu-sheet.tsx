@@ -18,7 +18,9 @@ const MenuSheet = () => {
         </SheetTrigger>
         <SheetContent>
           <SheetHeader className="mt-10 gap-3">
-            <Button variant={'secondary'}>Find Mentor</Button>
+            <Link to='/'>
+              <Button variant={'secondary'} className="w-full">Find Mentor</Button>
+            </Link>
             <Button variant={'secondary'}>Categories</Button>
             <Button variant={'secondary'}>About Us</Button>
           </SheetHeader>
