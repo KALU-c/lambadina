@@ -2,7 +2,11 @@ import { Heart } from "lucide-react"
 import { Badge } from "../ui/badge"
 import { useState } from "react";
 
-const Profile = () => {
+type ProfileProps = {
+  name?: string
+}
+
+const Profile = ({ name }: ProfileProps) => {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -19,7 +23,7 @@ const Profile = () => {
           onClick={() => setLiked(!liked)}
         />
         <Badge
-          className="absolute bottom-2 left-2 text-lg"
+          className="absolute bottom-2 left-2 text-md"
           variant={'secondary'}
         >
           Top Expert
@@ -33,7 +37,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <h1 className="text-2xl font-medium">Er. Tsedeke Yihune</h1>
+      <h1 className="text-2xl font-medium">{name}</h1>
     </div>
   )
 }

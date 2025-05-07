@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/card"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
+import { Link } from "react-router"
 
 type ExpertsCardProps = {
   src: string
@@ -42,16 +43,17 @@ const ExpertsCard = ({
             Top Expert
           </Badge>
         </div>
-        <div>
-          <h2 className="font-medium text-lg flex flex-row gap-[2px] items-center">
-            {name}
-            <BadgeCheck fill="#ffb102" color="#ffffff" size={20} />
-          </h2>
-          <p>ETB {price} • Session</p>
-          <p className="mt-1 text-md text-muted-foreground line-clamp-3">
-            {description}
-          </p>
-        </div>
+        <Link to={`/experts/${name}`}>
+          <div>
+            <h2 className="font-medium text-lg flex flex-row gap-[2px] items-center">
+              {name}
+              <BadgeCheck fill="#ffb102" color="#ffffff" size={20} />
+            </h2>
+            <p>ETB {price} • Session</p>
+            <p className="mt-1 text-md text-muted-foreground line-clamp-3">
+              {description}
+            </p>
+          </div></Link>
       </CardContent>
     </Card>
   )

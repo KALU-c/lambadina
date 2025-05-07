@@ -1,4 +1,4 @@
-import { useParams } from "react-router"
+import { Link, useParams } from "react-router"
 import DetailsNavbar from "./layout/navbar";
 import { Star } from "lucide-react";
 import { Separator } from "../ui/separator";
@@ -9,23 +9,28 @@ import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
 import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 const Details = () => {
   const pricingRef = useRef<null | HTMLDivElement>(null);
   const { expertName } = useParams();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main className='pt-[10px] flex flex-col'>
       <div className='px-[22px] flex flex-col space-y-6'>
         <DetailsNavbar />
 
-        <div className="flex flex-row gap-2 text-lg">
-          Intro / Expert Marketplace /
+        <div className="flex flex-row gap-2 text-lg flex-wrap">
+          <Link to={'/'}>Experts</Link>
+          /
           <span className="text-muted-foreground">{expertName}</span>
         </div>
 
-        <Profile />
+        <Profile name={expertName} />
         <Separator />
 
         <div className="flex flex-col gap-4">
