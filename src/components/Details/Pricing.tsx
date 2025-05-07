@@ -1,0 +1,71 @@
+import { Button } from "../ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./layout/pricing-tabs"
+
+const Pricing = () => {
+  return (
+    <Tabs defaultValue="basic">
+      <TabsList>
+        <TabsTrigger value="basic">Basic</TabsTrigger>
+        <TabsTrigger value="standard">Standard</TabsTrigger>
+        <TabsTrigger value="premium">Premium</TabsTrigger>
+      </TabsList>
+      <TabsContent value="basic" className="font-light flex flex-col gap-4 rounded-b-xl">
+        <p className="text-lg">
+          Designed for students or early-stage professionals looking to get started.
+        </p>
+
+        <ul className="list-disc pl-8 py-2">
+          <li>One group mentorship session every quarter</li>
+          <li>One-on-one mentorship (1 session per month)</li>
+          <li>Limited access to mentorship resources (PDFs, tools, templates)</li>
+          <li>Certificate of completion</li>
+          <li>Free or low-cost (ideal for university students)</li>
+        </ul>
+
+        <Button size={'xlg'} className="text-black">
+          Book Now
+        </Button>
+      </TabsContent>
+
+      <TabsContent value="standard" className="font-light flex flex-col gap-4 rounded-b-xl">
+        <p className="text-lg">
+          Perfect for young professionals and graduates ready to advance their career with guided support.
+        </p>
+
+        <ul className="list-disc pl-8 py-2">
+          <li>Two group mentorship sessions every quarter</li>
+          <li>Two one-on-one mentorship sessions per month</li>
+          <li>Full access to mentorship resources and exclusive webinars</li>
+          <li>Priority certification and completion badge</li>
+          <li>Affordable pricing for early-career professionals</li>
+        </ul>
+
+        <Button size={'xlg'} className="text-black">
+          Book Now
+        </Button>
+      </TabsContent>
+
+      <TabsContent value="premium" className="font-light flex flex-col gap-4 rounded-b-xl">
+        <p className="text-lg">
+          Tailored for experienced professionals or entrepreneurs seeking elite-level mentorship and networking.
+        </p>
+
+        <ul className="list-disc pl-8 py-2">
+          <li>Monthly private strategy sessions with top mentors</li>
+          <li>Unlimited one-on-one mentorship sessions</li>
+          <li>Full access to premium resources, masterclasses, and workshops</li>
+          <li>Exclusive invitations to networking events</li>
+          <li>Priority support and personal mentorship concierge</li>
+        </ul>
+
+        <Button size={'xlg'} className="text-black">
+          Book Now
+        </Button>
+      </TabsContent>
+
+    </Tabs>
+
+  )
+}
+
+export default Pricing
