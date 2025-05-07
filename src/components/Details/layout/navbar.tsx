@@ -1,4 +1,14 @@
 import { ChevronLeft, Menu, Search } from "lucide-react"
+import {
+  Sheet,
+  SheetTrigger,
+  // SheetDescription,
+  SheetContent,
+  SheetHeader,
+  // SheetTitle,
+  SheetFooter
+} from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 
 const DetailsNavbar = () => {
   return (
@@ -14,7 +24,25 @@ const DetailsNavbar = () => {
 
       <div className="flex flex-row gap-6">
         <Search size={28} strokeWidth={2} />
-        <Menu size={28} strokeWidth={2} />
+        <Sheet>
+          <SheetTrigger>
+            <Menu size={28} strokeWidth={2} />
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              {/* <SheetTitle>Are you absolutely sure?</SheetTitle>
+              <SheetDescription>
+                This action cannot be undone. This will permanently delete your account
+                and remove your data from our servers.
+              </SheetDescription> */}
+            </SheetHeader>
+            <SheetFooter>
+              <Button>
+                Logout
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   )

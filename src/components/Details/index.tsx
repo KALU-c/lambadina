@@ -9,8 +9,10 @@ import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
 import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
+import { useRef } from "react";
 
 const Details = () => {
+  const pricingRef = useRef<null | HTMLDivElement>(null);
   const { expertName } = useParams();
 
   return (
@@ -32,7 +34,7 @@ const Details = () => {
               <p className="text-muted-foreground text-lg">Starting From</p>
               <p className="text-xl font-medium">5000 ETB</p>
             </div>
-            <Button size={'xlg'}>
+            <Button size={'xlg'} onClick={() => pricingRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}>
               See Plans
             </Button>
           </div>
@@ -48,7 +50,7 @@ const Details = () => {
         </div>
 
         <AboutMe />
-        <Pricing />
+        <Pricing ref={pricingRef} />
 
         <CTA
           className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]"

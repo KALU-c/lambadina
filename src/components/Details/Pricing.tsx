@@ -1,9 +1,9 @@
 import { Button } from "../ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./layout/pricing-tabs"
 
-const Pricing = () => {
+const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
   return (
-    <Tabs defaultValue="basic">
+    <Tabs defaultValue="basic" ref={ref}>
       <TabsList>
         <TabsTrigger value="basic">Basic</TabsTrigger>
         <TabsTrigger value="standard">Standard</TabsTrigger>
