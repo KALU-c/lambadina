@@ -1,11 +1,12 @@
-import { Search } from "lucide-react"
+import { ArrowRight, Search } from "lucide-react"
 import { Input } from "../ui/input"
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
+import ExpertsCard from "./experts-card"
 
 const Home = () => {
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-4">
       {/* Search input */}
       <div className="flex items-center bg-[#e5e7eb] px-2 pr-4 h-12 rounded-full">
         <Input
@@ -67,6 +68,33 @@ const Home = () => {
           <TabsContent value="business-experts">Business Experts</TabsContent> */}
         </Tabs>
 
+      </div>
+
+      {/* Section indicator */}
+      <div className="flex flex-col gap-3 py-2">
+        <div className="text-3xl text-muted-foreground">
+          <span className="text-black dark:text-white mr-2">Top Experts.</span>
+          Access to the best experts has never been easier
+        </div>
+        <div className="flex flex-row gap-2 text-xl items-center">
+          See all
+          <ArrowRight size={20} />
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
+        <ExpertsCard
+          src="/images/p4-lg.png"
+          name="Dr. Mihret Debebe"
+          price={7000}
+          description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
+        />
+        <ExpertsCard
+          src="/images/p5-lg.png"
+          name="Helen Mesfin"
+          price={5000}
+          description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
+        />
       </div>
     </div>
   )
