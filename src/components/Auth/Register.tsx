@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import Footer from "../Footer"
 import { Button } from "../ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
@@ -75,7 +76,9 @@ const Register = () => {
             </Button>
             <p className="text-muted-foreground">
               Already have an account? {" "}
-              <span className="underline underline-offset-1 text-[#FFB000]">Sign In</span>
+              <Link to={'/login'}>
+                <span className="underline underline-offset-1 text-[#FFB000]">Sign In</span>
+              </Link>
             </p>
           </CardFooter>
         </Card>
