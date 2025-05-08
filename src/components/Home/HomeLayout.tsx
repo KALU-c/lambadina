@@ -10,6 +10,8 @@ import SearchExperts from "./layout/search-experts"
 import ExpertsCarousel from "./layout/experts-carousel"
 import { Separator } from "@/components/ui/separator"
 import CTA from "./CTA"
+import { Suspense } from "react"
+import ExpertsCardSkeleton from "./layout/experts-card-skeleton"
 
 const HomeLayout = () => {
   return (
@@ -39,18 +41,22 @@ const HomeLayout = () => {
       />
 
       <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
-        <ExpertsCard
-          src="/images/p4-lg.png"
-          name="Dr. Mihret Debebe"
-          price={7000}
-          description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
-        />
-        <ExpertsCard
-          src="/images/p5-lg.png"
-          name="Helen Mesfin"
-          price={5000}
-          description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
-        />
+        <Suspense fallback={<ExpertsCardSkeleton />}>
+          <ExpertsCard
+            src="/images/p4-lg.png"
+            name="Dr. Mihret Debebe"
+            price={7000}
+            description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
+          />
+        </Suspense>
+        <Suspense fallback={<ExpertsCardSkeleton />}>
+          <ExpertsCard
+            src="/images/p5-lg.png"
+            name="Helen Mesfin"
+            price={5000}
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
+          />
+        </Suspense>
       </div>
 
       <Business />
