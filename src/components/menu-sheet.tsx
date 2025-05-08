@@ -25,7 +25,7 @@ const MenuSheet = () => {
             <Button variant={'secondary'} className="justify-start">About Us</Button>
           </SheetHeader>
           <SheetFooter>
-            <Link to={'login'}>
+            <Link to={'/login'}>
               <Button variant={'secondary'} className="w-full">
                 Login
               </Button>

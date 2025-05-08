@@ -11,7 +11,7 @@ const Navbar = () => {
         <img
           src="/logo.png"
           alt="lambadina logo"
-          className="h-7"
+          className="h-6"
         />
       </div>
 
