@@ -1,7 +1,11 @@
+import { useState } from "react"
 import { Button } from "../ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./layout/pricing-tabs"
+import { nanoid } from 'nanoid'
 
 const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
+  const [txRef, setTxRef] = useState("");
+
   return (
     <Tabs defaultValue="basic" ref={ref}>
       <TabsList>
@@ -22,9 +26,24 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
           <li>Free or low-cost (ideal for university students)</li>
         </ul>
 
-        <Button size={'xlg'} className="text-black">
-          Book Now
-        </Button>
+        <form method="POST" action="https://api.chapa.co/v1/hosted/pay">
+          <input type="hidden" name="public_key" value={import.meta.env.VITE_CHAPA_PUBLIC_API_KEY} />
+          <input type="hidden" name="tx_ref" value={txRef} onSubmit={() => setTxRef(nanoid())} />
+          <input type="hidden" name="amount" value={12000} />
+          <input type="hidden" name="currency" value="ETB" />
+          <input type="hidden" name="email" value="endekaluzemenu2134@gmail.com" />
+          <input type="hidden" name="first_name" value="Endekalu" />
+          <input type="hidden" name="last_name" value="Zemenu" />
+          <input type="hidden" name="title" value="Mentorship" />
+          <input type="hidden" name="description" value="lorem" />
+          <input type="hidden" name="callback_url" value="" />
+          <input type="hidden" name="return_url" value="" />
+          <Button size={'xlg'} className="text-black w-full" type="submit">
+            Book Now
+          </Button>
+        </form>
+
+
       </TabsContent>
 
       <TabsContent value="standard" className="font-light flex flex-col gap-4 rounded-b-xl">

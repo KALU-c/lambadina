@@ -19,10 +19,10 @@ const MenuSheet = () => {
         <SheetContent>
           <SheetHeader className="mt-10 gap-3">
             <Link to='/'>
-              <Button variant={'secondary'} className="w-full">Find Mentor</Button>
+              <Button variant={'secondary'} className="w-full justify-start">Find Mentor</Button>
             </Link>
-            <Button variant={'secondary'}>Categories</Button>
-            <Button variant={'secondary'}>About Us</Button>
+            <Button variant={'secondary'} className="justify-start">Categories</Button>
+            <Button variant={'secondary'} className="justify-start">About Us</Button>
           </SheetHeader>
           <SheetFooter>
             <Link to={'login'}>
