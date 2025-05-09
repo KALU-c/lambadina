@@ -1,4 +1,4 @@
-import { Menu } from "lucide-react"
+import { LogOut, Menu } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
+import { useState } from "react"
 
 const MenuSheet = () => {
+  const [isLoggedIn] = useState(true);
+
   return (
     <div>
       <Sheet>
@@ -25,16 +28,30 @@ const MenuSheet = () => {
             <Button variant={'secondary'} className="justify-start">About Us</Button>
           </SheetHeader>
           <SheetFooter>
-            <Link to={'/login'}>
-              <Button variant={'secondary'} className="w-full">
-                Login
-              </Button>
-            </Link>
-            <Link to={'/register'}>
-              <Button className="w-full">
-                Sign Up
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link to="/login">
+                  {/* TODO - delete token from ls */}
+                  <Button className="w-full" size={'lg'}>
+                    <LogOut />
+                    Logout
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to={'/login'}>
+                  <Button variant={'secondary'} className="w-full">
+                    Login
+                  </Button>
+                </Link>
+                <Link to={'/register'}>
+                  <Button className="w-full">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </SheetFooter>
         </SheetContent>
       </Sheet>

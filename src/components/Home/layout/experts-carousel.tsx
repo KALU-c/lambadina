@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Suspense } from "react"
 import ExpertsCarouselSkeleton from "./experts-carousel-skeleton"
+import { Link } from "react-router"
 
 const expertsData = [
   { src: "/images/p2.png", alt: "Er. Tsedeke Yihune" },
@@ -24,13 +25,15 @@ const ExpertsCarousel = () => {
       <Suspense fallback={<ExpertsCarouselSkeleton />}>
         <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
           {expertsData.map((expert, index) => (
-            <Avatar key={index} className="h-[96px] w-[96px]">
-              <AvatarImage
-                src={expert.src}
-                alt={expert.alt}
-              />
-              <AvatarFallback>{getInitials(expert.alt)}</AvatarFallback>
-            </Avatar>
+            <Link to={`/experts/${expert.alt}`}>
+              <Avatar key={index} className="h-[96px] w-[96px]">
+                <AvatarImage
+                  src={expert.src}
+                  alt={expert.alt}
+                />
+                <AvatarFallback>{getInitials(expert.alt)}</AvatarFallback>
+              </Avatar>
+            </Link>
           ))}
         </div>
       </Suspense>

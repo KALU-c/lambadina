@@ -59,7 +59,7 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
           <li>Affordable pricing for early-career professionals</li>
         </ul>
 
-        <Button size={'xlg'} className="text-black">
+        <Button size={'xlg'} className="text-black hover:bg-[]">
           Book Now
         </Button>
       </TabsContent>

@@ -1,4 +1,4 @@
-import { ChevronLeft, Search } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import { Link } from "react-router"
 import MenuSheet from "@/components/menu-sheet"
 
@@ -17,7 +17,6 @@ const DetailsNavbar = () => {
       </Link>
 
       <div className="flex flex-row gap-6">
-        <Search size={28} strokeWidth={2} />
         <MenuSheet />
       </div>
     </div>
