@@ -19,6 +19,7 @@ const Wellness = () => {
         <ExpertsCard
           src="/images/p6-lg.png"
           name="Teshome Tesfaye"
+          isVerified={true}
           price={5000}
           description="Founder & Lead Instructor of Forma Pilates, mamdkoa dkdeajdwa doija"
         />

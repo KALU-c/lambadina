@@ -14,6 +14,7 @@ const TechAndDigital = () => {
         <ExpertsCard
           src="/images/p7-lg.png"
           name="Zelalem Weldemariam"
+          isVerified={true}
           price={12000}
           description="World renowned hair artist. Clients include Oprah, Michelle Obama, and more"
         />

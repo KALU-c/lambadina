@@ -10,64 +10,80 @@ import SearchExperts from "./layout/search-experts"
 import ExpertsCarousel from "./layout/experts-carousel"
 import { Separator } from "@/components/ui/separator"
 import CTA from "./CTA"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import ExpertsCardSkeleton from "./layout/experts-card-skeleton"
 
 const HomeLayout = () => {
+  const [search, setSearch] = useState<string>('');
+
   return (
     <div className="flex flex-col space-y-4">
-      <SearchExperts />
-      <ExpertsCarousel />
-
-      {/* Experts Tab */}
-      <div>
-        <Tabs defaultValue="all-experts" className="w-full">
-          <TabsList className="bg-transparent">
-            <TabsTrigger value="all-experts">All Experts</TabsTrigger>
-            <TabsTrigger value="top-experts">Top Experts</TabsTrigger>
-            <TabsTrigger value="business-experts">Business Experts</TabsTrigger>
-          </TabsList>
-          {/* <TabsContent value="all-experts">All experts</TabsContent>
-          <TabsContent value="top-experts">Top Experts</TabsContent>
-          <TabsContent value="business-experts">Business Experts</TabsContent> */}
-        </Tabs>
-
-      </div>
-
-      <SectionIndicator
-        highlightMainText={false}
-        mainText="Top Experts."
-        text="Access to the best experts has never been easier"
+      <SearchExperts
+        search={search}
+        setSearch={setSearch}
       />
 
-      <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
-        <Suspense fallback={<ExpertsCardSkeleton />}>
-          <ExpertsCard
-            src="/images/p4-lg.png"
-            name="Dr. Mihret Debebe"
-            price={7000}
-            description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
+      {/* TODO - fix this, empty string */}
+      {!search ? (
+        <>
+          <ExpertsCarousel />
+
+          {/* Experts Tab */}
+          <div>
+            <Tabs defaultValue="all-experts" className="w-full">
+              <TabsList className="bg-transparent">
+                <TabsTrigger value="all-experts">All Experts</TabsTrigger>
+                <TabsTrigger value="top-experts">Top Experts</TabsTrigger>
+                <TabsTrigger value="business-experts">Business Experts</TabsTrigger>
+              </TabsList>
+              {/* <TabsContent value="all-experts">All experts</TabsContent>
+    <TabsContent value="top-experts">Top Experts</TabsContent>
+    <TabsContent value="business-experts">Business Experts</TabsContent> */}
+            </Tabs>
+
+          </div>
+
+          <SectionIndicator
+            highlightMainText={false}
+            mainText="Top Experts."
+            text="Access to the best experts has never been easier"
           />
-        </Suspense>
-        <Suspense fallback={<ExpertsCardSkeleton />}>
-          <ExpertsCard
-            src="/images/p5-lg.png"
-            name="Helen Mesfin"
-            price={5000}
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
-          />
-        </Suspense>
-      </div>
 
-      <Business />
-      <Wellness />
-      <LegalAndCompliance />
-      <TechAndDigital />
-      <CreativeAndMedia />
+          <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
+            <Suspense fallback={<ExpertsCardSkeleton />}>
+              <ExpertsCard
+                src="/images/p4-lg.png"
+                name="Dr. Mihret Debebe"
+                price={7000}
+                description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
+              />
+            </Suspense>
+            <Suspense fallback={<ExpertsCardSkeleton />}>
+              <ExpertsCard
+                src="/images/p5-lg.png"
+                name="Helen Mesfin"
+                isVerified={true}
+                price={5000}
+                description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
+              />
+            </Suspense>
+          </div>
 
-      <Separator orientation="horizontal" className="border" />
+          <Business />
+          <Wellness />
+          <LegalAndCompliance />
+          <TechAndDigital />
+          <CreativeAndMedia />
 
-      <CTA />
+          <Separator orientation="horizontal" className="border" />
+
+          <CTA />
+        </>
+      ) : (
+        <>
+          <div>searching</div>
+        </>
+      )}
     </div>
   )
 }

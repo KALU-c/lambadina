@@ -8,7 +8,12 @@ const Footer = () => {
   return (
     <div className="bg-[#0C0C0C] text-white px-6 py-8 space-y-4">
       <div className='py-6'>
-        <span className='text-2xl'>LAMBADINA</span>
+        <span className='text-2xl font-serif font-bold'>LAMBADINA</span>
+        {/* <img
+          src="/logo.png"
+          alt="lambadina logo"
+          className="h-6"
+        /> */}
       </div>
 
       <p className='text-2xl font-extralight pr-10 text-[#E8E4DF]'>

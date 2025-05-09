@@ -1,19 +1,16 @@
-import {
-  ChevronLeft,
-} from "lucide-react"
+import { Link } from "react-router"
 import MenuSheet from "./menu-sheet"
 
 const Navbar = () => {
   return (
     <div className="h-16 flex flex-row items-center justify-between">
-      <div className="flex flex-row gap-1 items-center">
-        <ChevronLeft size={28} strokeWidth={3} />
+      <Link to={"/"}>
         <img
           src="/logo.png"
           alt="lambadina logo"
-          className="h-6"
+          className="h-7"
         />
-      </div>
+      </Link>
 
       <MenuSheet />
     </div>

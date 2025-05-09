@@ -15,11 +15,13 @@ const CreativeAndMedia = () => {
           src="/images/p11-lg.png"
           name="Mulatu Astatke"
           price={20000}
+          isVerified={true}
           description="World renowned hair artist. Father of Ethio Jazz 1 Million monthly listeners"
         />
         <ExpertsCard
           src="/images/p15-lg.png"
           name="Girum Ermias"
+          isVerified={true}
           price={15000}
           description="CEO, celebrity stylist, author, and television show creator"
         />

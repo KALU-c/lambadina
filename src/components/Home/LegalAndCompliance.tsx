@@ -19,6 +19,7 @@ const LegalAndCompliance = () => {
         <ExpertsCard
           src="/images/p13-lg.png"
           name="Dr. Taddese Lencho"
+          isVerified={true}
           price={500}
           description="He has advised, assisted and represented clients in corporate, investment, tax, M & A, private equity, and financing of investments and infrastructure developments in Ethiopia."
         />
