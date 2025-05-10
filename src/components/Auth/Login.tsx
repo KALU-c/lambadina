@@ -16,15 +16,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { loginSchema } from "@/schema/loginSchema";
-import axios from "axios";
-import { toast } from "sonner";
-import { useNavigate } from "react-router";
-import { useState } from "react";
 import { Loader } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { isLoading, login } = useAuth()
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -35,17 +31,7 @@ const Login = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setIsLoading(true);
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/users/login/`, values);
-      toast.success("Login successful 🎉");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      toast.error("Invalid credentials or something went wrong.");
-    } finally {
-      setIsLoading(false);
-    }
+    await login(values.username, values.password);
   };
 
   return (

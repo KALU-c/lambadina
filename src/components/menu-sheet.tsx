@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
-import { useState } from "react"
+import { useAuth } from "@/hooks/useAuth"
 
 const MenuSheet = () => {
-  const [isLoggedIn] = useState(true);
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <div>
@@ -28,11 +28,10 @@ const MenuSheet = () => {
             <Button variant={'secondary'} className="justify-start">About Us</Button>
           </SheetHeader>
           <SheetFooter>
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 <Link to="/login">
-                  {/* TODO - delete token from ls */}
-                  <Button className="w-full" size={'lg'}>
+                  <Button className="w-full" size={'lg'} onClick={logout}>
                     <LogOut />
                     Logout
                   </Button>

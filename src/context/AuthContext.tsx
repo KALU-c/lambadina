@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -72,7 +72,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong. Please try again.");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.username);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
