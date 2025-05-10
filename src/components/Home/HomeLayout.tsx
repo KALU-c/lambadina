@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator"
 import CTA from "./CTA"
 import { Suspense, useState } from "react"
 import ExpertsCardSkeleton from "./layout/experts-card-skeleton"
+import { MENTORS } from "@/constants/mentors"
 
 const HomeLayout = () => {
   const [search, setSearch] = useState<string>('');
@@ -30,7 +31,7 @@ const HomeLayout = () => {
           {/* Experts Tab */}
           <div>
             <Tabs defaultValue="all-experts" className="w-full">
-              <TabsList className="bg-transparent">
+              <TabsList className="bg-transparent overflow-x-auto max-w-full scrollbar-thin">
                 <TabsTrigger value="all-experts">All Experts</TabsTrigger>
                 <TabsTrigger value="top-experts">Top Experts</TabsTrigger>
                 <TabsTrigger value="business-experts">Business Experts</TabsTrigger>
@@ -49,23 +50,11 @@ const HomeLayout = () => {
           />
 
           <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
-            <Suspense fallback={<ExpertsCardSkeleton />}>
-              <ExpertsCard
-                src="/images/p4-lg.png"
-                name="Dr. Mihret Debebe"
-                price={7000}
-                description="Dr. Mehret is a well-known practicing psychiatrist and an author of two books"
-              />
-            </Suspense>
-            <Suspense fallback={<ExpertsCardSkeleton />}>
-              <ExpertsCard
-                src="/images/p5-lg.png"
-                name="Helen Mesfin"
-                isVerified={true}
-                price={5000}
-                description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, doloribus."
-              />
-            </Suspense>
+            {MENTORS.map(mentor => (
+              <Suspense fallback={<ExpertsCardSkeleton />}>
+                <ExpertsCard mentor={mentor} />
+              </Suspense>
+            ))}
           </div>
 
           <Business />

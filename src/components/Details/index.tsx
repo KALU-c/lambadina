@@ -9,11 +9,19 @@ import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
 import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
-import { useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import type { MentorProfile } from "@/types/mentor";
+import { MENTORS } from "@/constants/mentors";
 
 const Details = () => {
+  const [mentor, setMentor] = useState<MentorProfile>();
   const pricingRef = useRef<null | HTMLDivElement>(null);
-  const { expertName } = useParams();
+  const { mentorId } = useParams();
+
+  useLayoutEffect(() => {
+    {/* Make API request */ }
+    setMentor(MENTORS.find(mentor => mentor.id === Number(mentorId)));
+  }, [mentorId])
 
   return (
     <main className='pt-[10px] flex flex-col'>
@@ -23,17 +31,17 @@ const Details = () => {
         <div className="flex flex-row gap-2 text-lg flex-wrap">
           <Link to={'/'}>Experts</Link>
           /
-          <span className="text-muted-foreground">{expertName}</span>
+          <span className="text-muted-foreground">{mentor?.user.first_name}{" "}{mentor?.user.last_name}</span>
         </div>
 
-        <Profile name={expertName} />
+        <Profile name={mentor?.user.first_name + " " + mentor?.user.last_name} />
         <Separator />
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-col gap-0">
               <p className="text-muted-foreground text-lg">Starting From</p>
-              <p className="text-xl font-medium">5000 ETB</p>
+              <p className="text-xl font-medium">{mentor?.price_per_minute} ETB</p>
             </div>
             <Button size={'xlg'} onClick={() => pricingRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}>
               See Plans
@@ -46,7 +54,8 @@ const Details = () => {
             <Star size={16} color="#FFB000" fill="#FFB000" />
             <Star size={16} color="#FFB000" fill="#FFB000" />
             <Star size={16} color="#FFB000" />
-            <p className="ml-2 text-[#FFB000]">5.0 <span className="text-muted-foreground">(27)</span></p>
+            {/* TODO - rating list 404 in the API */}
+            <p className="ml-2 text-[#FFB000]">{mentor?.rating} <span className="text-muted-foreground">(27)</span></p>
           </div>
         </div>
 
