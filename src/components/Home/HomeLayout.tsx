@@ -23,8 +23,7 @@ const HomeLayout = () => {
         setSearch={setSearch}
       />
 
-      {/* TODO - fix this, empty string */}
-      {!search ? (
+      {(!search || search.trim() === "") ? (
         <>
           <ExpertsCarousel />
 
@@ -80,9 +79,9 @@ const HomeLayout = () => {
           <CTA />
         </>
       ) : (
-        <>
-          <div>searching</div>
-        </>
+        <div className="py-4">
+          <ExpertsCardSkeleton />
+        </div>
       )}
     </div>
   )

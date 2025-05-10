@@ -5,7 +5,7 @@ const RestrictedDevices = () => {
         <div className="mb-8 md:mb-[56px] flex flex-row justify-center">
           <div className="max-w-[312px] w-full h-[160px] relative flex justify-center items-center">
             <img
-              src="https://www.tailwindtap.com/_next/image?url=%2Fassets%2Fcomponents%2F404%2F404-green.png&w=1920&q=75"
+              src="/404.png"
               alt="404"
             />
           </div>
