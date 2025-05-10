@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router'
+import { Route, Routes, useLocation } from 'react-router'
 import Home from './components/Home'
 import Details from './components/Details'
 import Register from './components/Auth/Register'
@@ -8,6 +8,11 @@ import RestrictedDevices from './components/RestrictedDevices'
 
 function App() {
   const [isMobile, setIsMobile] = useState(true);
+  const location = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   useLayoutEffect(() => {
     const checkScreenSize = () => {

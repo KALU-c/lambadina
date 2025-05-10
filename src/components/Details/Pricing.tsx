@@ -2,8 +2,11 @@ import { useState } from "react"
 import { Button } from "../ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./layout/pricing-tabs"
 import { nanoid } from 'nanoid'
+import { useAuth } from "@/hooks/useAuth"
+import { Link } from "react-router"
 
 const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
+  const { isAuthenticated } = useAuth();
   const [txRef, setTxRef] = useState("");
 
   return (
@@ -38,9 +41,18 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
           <input type="hidden" name="description" value="lorem" />
           <input type="hidden" name="callback_url" value="" />
           <input type="hidden" name="return_url" value="" />
-          <Button size={'xlg'} className="text-black w-full" type="submit">
-            Book Now
-          </Button>
+
+          {isAuthenticated ? (
+            <Button size={'xlg'} className="text-black w-full" type="submit">
+              Book Now
+            </Button>
+          ) : (
+            <Link to={'/login'}>
+              <Button size={'xlg'} className="text-black w-full">
+                Book Now
+              </Button>
+            </Link>
+          )}
         </form>
 
 

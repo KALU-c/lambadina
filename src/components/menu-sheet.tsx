@@ -1,4 +1,4 @@
-import { LogOut, Menu } from "lucide-react"
+import { BadgeInfo, Blend, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
@@ -22,20 +22,31 @@ const MenuSheet = () => {
         <SheetContent>
           <SheetHeader className="mt-10 gap-3">
             <Link to='/'>
-              <Button variant={'secondary'} className="w-full justify-start">Find Mentor</Button>
+              <Button variant={'secondary'} className="w-full justify-start items-center py-6">
+                <UserRoundSearch className="mr-2" />
+                Find Mentor
+              </Button>
             </Link>
-            <Button variant={'secondary'} className="justify-start">Categories</Button>
-            <Button variant={'secondary'} className="justify-start">About Us</Button>
+            <Button variant={'secondary'} className="justify-start items-center py-6">
+              <Blend className="mr-2" />
+              Categories
+            </Button>
+            <Button variant={'secondary'} className="justify-start items-center py-6">
+              <User2 className="mr-2" />
+              Profile
+            </Button>
+            <Button variant={'secondary'} className="justify-start items-center py-6">
+              <BadgeInfo className="mr-2" />
+              About Us
+            </Button>
           </SheetHeader>
           <SheetFooter>
             {isAuthenticated ? (
               <>
-                <Link to="/login">
-                  <Button className="w-full" size={'lg'} onClick={logout}>
-                    <LogOut />
-                    Logout
-                  </Button>
-                </Link>
+                <Button className="w-full" size={'lg'} onClick={logout}>
+                  <LogOut />
+                  Logout
+                </Button>
               </>
             ) : (
               <>

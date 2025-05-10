@@ -9,15 +9,11 @@ import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
 import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 
 const Details = () => {
   const pricingRef = useRef<null | HTMLDivElement>(null);
   const { expertName } = useParams();
-
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <main className='pt-[10px] flex flex-col'>
