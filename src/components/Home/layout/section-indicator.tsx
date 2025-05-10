@@ -1,19 +1,21 @@
 import { cn } from "@/lib/utils"
-import { ArrowRight } from "lucide-react"
+// import { ArrowRight } from "lucide-react"
 
 type SectionIndicatorProps = {
   highlightMainText?: boolean
   mainText: string
   text: string
+  className?: string
 }
 
 const SectionIndicator = ({
   highlightMainText = true,
   mainText,
-  text
+  text,
+  className
 }: SectionIndicatorProps) => {
   return (
-    <div className="flex flex-col gap-3 py-2">
+    <div className={cn("flex flex-col gap-3 py-2", className)}>
       <div className="text-3xl text-muted-foreground">
         {mainText && (
           <span
@@ -27,10 +29,10 @@ const SectionIndicator = ({
         )}
         {text}
       </div>
-      <div className="flex flex-row gap-2 text-xl items-center">
+      {/* <div className="flex flex-row gap-2 text-xl items-center">
         See all
         <ArrowRight size={20} />
-      </div>
+      </div> */}
     </div>
   )
 }

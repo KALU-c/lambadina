@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { Search, X } from "lucide-react"
 
 type SearchExpertsProps = {
   search: string
@@ -15,7 +15,7 @@ const SearchExperts = ({ search, setSearch }: SearchExpertsProps) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <Search />
+      {search.length > 0 ? (<X onClick={() => setSearch("")} />) : (<Search />)}
     </div>
   )
 }
