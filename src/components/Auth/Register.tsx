@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import Footer from "../Footer";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
@@ -6,8 +6,6 @@ import { Input } from "../ui/input";
 import AuthNavbar from "./AuthNavbar";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useState } from "react";
-import axios from "axios";
 import {
   Form,
   FormField,
@@ -18,14 +16,13 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Loader } from "lucide-react";
-import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/schema/registerSchema";
 import * as z from "zod";
+import { useAuth } from "@/hooks/useAuth";
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { register, isLoading } = useAuth();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -39,17 +36,7 @@ const Register = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-    setIsLoading(true);
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/users/register/`, values);
-      toast.success("Account created successfully 🎉");
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    await register(values);
   };
 
   return (
