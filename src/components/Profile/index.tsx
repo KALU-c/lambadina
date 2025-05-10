@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import DetailsNavbar from "../Details/layout/navbar";
 import Footer from "../Footer";
@@ -16,7 +17,8 @@ import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import type { Category } from "@/types/mentor";
+import { useAuth } from "@/hooks/useAuth";
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
@@ -46,6 +48,8 @@ const profileFormSchema = z.object({
 });
 
 const Profile = () => {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -62,9 +66,79 @@ const Profile = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof profileFormSchema>) {
-    console.log(values);
-    // Handle form submission
+  // Fetch profile data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        if (user?.user_type === "client") {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${user?.id}`);
+          const data = await response.json();
+
+          form.reset({
+            fullName: `${data.user.first_name} ${data.user.last_name}`,
+            username: data.user.username,
+            phoneNumber: data.user.phone_number,
+            email: data.user.email,
+            currentRole: "", // Not provided by API
+            experienceLevel: "", // Not provided by API
+            expertise: data.categories.map((c: Category) => c.name).join(", "),
+            bio: data.bio,
+          });
+        } else {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/profile/${user?.id}`);
+          const data = await response.json();
+
+          form.reset({
+            fullName: `${data.user.first_name} ${data.user.last_name}`,
+            username: data.user.username,
+            phoneNumber: data.user.phone_number,
+            email: data.user.email,
+            currentRole: "", // Not provided by API
+            experienceLevel: "", // Not provided by API
+            expertise: "", // Not provided by API
+            bio: "", // Not provided by API
+          });
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [form, user?.id, user?.user_type]);
+
+  // Form submission
+  const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
+    try {
+      const response = await fetch(`/api/mentors/mentors/${user?.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bio: values.bio,
+          categories: values.expertise.split(",").map((name) => ({ name })),
+          // Map other fields here if your backend supports updating them
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile.");
+      }
+
+      alert("Profile updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile.");
+    }
+  };
+
+  if (loading) {
+    return <div className="p-10 text-center">Loading profile...</div>;
   }
 
   return (
@@ -73,13 +147,13 @@ const Profile = () => {
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={"/"}>Tsedeke Yihune</Link>/
+          <Link to={"/"}>Mentor Profile</Link>/
           <span className="text-muted-foreground">Profile</span>
         </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Personal Information Section */}
+            {/* Personal Information */}
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
@@ -95,9 +169,8 @@ const Profile = () => {
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your full name"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -105,7 +178,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="username"
@@ -114,9 +186,8 @@ const Profile = () => {
                       <FormLabel>Username</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your username"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -124,7 +195,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="phoneNumber"
@@ -133,9 +203,8 @@ const Profile = () => {
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your phone number"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -143,7 +212,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="email"
@@ -152,9 +220,8 @@ const Profile = () => {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your email"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -165,7 +232,7 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Professional Information Section */}
+            {/* Professional Information */}
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
@@ -181,9 +248,8 @@ const Profile = () => {
                       <FormLabel>Current Role</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your current role"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -191,7 +257,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="experienceLevel"
@@ -200,9 +265,8 @@ const Profile = () => {
                       <FormLabel>Experience Level</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your experience level"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -210,7 +274,6 @@ const Profile = () => {
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="expertise"
@@ -219,9 +282,8 @@ const Profile = () => {
                       <FormLabel>Expertise</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your expertise"
                           className="bg-zinc-100 h-10"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -232,7 +294,7 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Profile Picture and Bio Section */}
+            {/* Profile Picture and Bio */}
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
@@ -255,9 +317,8 @@ const Profile = () => {
                       <FormLabel>Bio</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell us about yourself"
                           className="bg-zinc-100 h-52"
-                          disabled={isEditing}
+                          disabled={!isEditing}
                           {...field}
                         />
                       </FormControl>
@@ -268,28 +329,38 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Security Section */}
+            {/* Security */}
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
                 Security
               </div>
 
-              <Button variant={"secondary"}>Update Password</Button>
+              <Button variant="secondary" disabled>Update Password</Button>
 
               <div className="py-4 flex flex-row w-full items-center gap-2">
                 {isEditing ? (
                   <>
-                    <Button type="submit" className="flex-4/6">
+                    <Button type="submit" className="flex-4/6" disabled>
                       Save Changes
                     </Button>
-
-                    <Button className="flex-2/4" variant={"secondary"} onClick={() => setIsEditing(false)}>
+                    <Button
+                      disabled
+                      type="button"
+                      variant="secondary"
+                      className="flex-2/4"
+                      onClick={() => setIsEditing(false)}
+                    >
                       Cancel
                     </Button>
                   </>
                 ) : (
-                  <Button onClick={() => setIsEditing(true)} className="w-full" type="button">
+                  <Button
+                    disabled
+                    type="button"
+                    className="w-full"
+                    onClick={() => setIsEditing(true)}
+                  >
                     Update Profile
                   </Button>
                 )}
