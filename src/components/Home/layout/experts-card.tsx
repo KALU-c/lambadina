@@ -48,7 +48,7 @@ const ExpertsCard = ({ mentor }: { mentor: MentorProfile }) => {
               {user.first_name}{" "}{user.last_name}
               {user.is_verified && <BadgeCheck fill="#ffb102" color="#ffffff" size={20} />}
             </h2>
-            <p>ETB {price_per_minute} • Minute</p>
+            <p>ETB {price_per_minute} • Session</p>
             <p className="mt-1 text-md text-muted-foreground line-clamp-3">
               {bio}
             </p>

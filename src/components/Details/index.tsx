@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router"
+import { Link, useParams } from "react-router";
 import DetailsNavbar from "./layout/navbar";
 import { Star } from "lucide-react";
 import { Separator } from "../ui/separator";
@@ -9,36 +9,67 @@ import Pricing from "./Pricing";
 import CTA from "../Home/CTA";
 import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MentorProfile } from "@/types/mentor";
+// import axios from "axios";
 import { MENTORS } from "@/constants/mentors";
 
 const Details = () => {
-  const [mentor, setMentor] = useState<MentorProfile>();
-  const pricingRef = useRef<null | HTMLDivElement>(null);
+  const [mentor, setMentor] = useState<MentorProfile | null>(null);
+  // const [loading] = useState(true);
+  const pricingRef = useRef<HTMLDivElement | null>(null);
   const { mentorId } = useParams();
 
-  useLayoutEffect(() => {
-    {/* Make API request */ }
-    setMentor(MENTORS.find(mentor => mentor.id === Number(mentorId)));
-  }, [mentorId])
+  useEffect(() => {
+    setMentor(MENTORS.find(mentor => mentor.id === Number(mentorId))!);
+    // const fetchMentor = async () => {
+    //   try {
+    //     const { data } = await axios.get(`/api/mentors/mentors/${mentorId}/?format=json`);
+    //     console.log("Fetched Mentor:", data);
+    //     setMentor(data);
+    //   } catch (error) {
+    //     console.error("Error fetching mentor:", error);
+    //     setMentor(null);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
 
-  if (!mentor) return <div>Loading...</div>
+    // if (mentorId) {
+    //   fetchMentor();
+    // }
+  }, [mentorId]);
+
+  // if (loading)
+  //   return (
+  //     <div className="py-12 text-center text-gray-500 text-lg">
+  //       Loading mentor details...
+  //     </div>
+  //   );
+
+  if (!mentor)
+    return (
+      <div className="py-12 text-center text-red-500 text-lg">
+        Mentor not found.
+      </div>
+    );
 
   return (
-    <main className='pt-[10px] flex flex-col'>
-      <div className='px-[22px] flex flex-col space-y-6'>
+    <main className="pt-[10px] flex flex-col">
+      <div className="px-[22px] flex flex-col space-y-6">
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={'/'}>Mentors</Link>
+          <Link to={"/"}>Mentors</Link>
           /
-          <span className="text-muted-foreground">{mentor?.user.first_name}{" "}{mentor?.user.last_name}</span>
+          <span className="text-muted-foreground">
+            {mentor.user.first_name ?? ''} {mentor.user.last_name ?? ''}
+          </span>
         </div>
 
         <Profile
           src={mentor.user.profile_picture ?? "/"}
-          name={mentor?.user.first_name + " " + mentor?.user.last_name}
+          name={`${mentor.user.first_name ?? ''} ${mentor.user.last_name ?? ''}`}
         />
         <Separator />
 
@@ -46,9 +77,19 @@ const Details = () => {
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-col gap-0">
               <p className="text-muted-foreground text-lg">Starting From</p>
-              <p className="text-xl font-medium">{mentor?.price_per_minute} ETB</p>
+              <p className="text-xl font-medium">
+                {mentor.price_per_minute ?? ''} ETB
+              </p>
             </div>
-            <Button size={'xlg'} onClick={() => pricingRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}>
+            <Button
+              size={"xlg"}
+              onClick={() =>
+                pricingRef.current?.scrollIntoView({
+                  block: "center",
+                  behavior: "smooth",
+                })
+              }
+            >
               See Plans
             </Button>
           </div>
@@ -59,20 +100,24 @@ const Details = () => {
                 key={i}
                 size={16}
                 color="#FFB000"
-                fill={i < Math.floor(parseFloat(mentor!.rating)) ? "#FFB000" : "none"}
+                fill={
+                  i < Math.floor(parseFloat(mentor.rating))
+                    ? "#FFB000"
+                    : "none"
+                }
               />
             ))}
-            {/* TODO - rating list 404 in the API */}
-            <p className="ml-2 text-[#FFB000]">{mentor?.rating} <span className="text-muted-foreground">(27)</span></p>
+            <p className="ml-2 text-[#FFB000]">
+              {mentor.rating}
+              {/* <span className="text-muted-foreground"> (27)</span> */}
+            </p>
           </div>
         </div>
 
         <AboutMe />
         <Pricing ref={pricingRef} />
 
-        <CTA
-          className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]"
-        />
+        <CTA className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]" />
 
         <Separator />
 
@@ -81,7 +126,7 @@ const Details = () => {
 
       <Footer />
     </main>
-  )
-}
+  );
+};
 
-export default Details
+export default Details;
