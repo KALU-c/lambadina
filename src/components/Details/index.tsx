@@ -23,18 +23,23 @@ const Details = () => {
     setMentor(MENTORS.find(mentor => mentor.id === Number(mentorId)));
   }, [mentorId])
 
+  if (!mentor) return <div>Loading...</div>
+
   return (
     <main className='pt-[10px] flex flex-col'>
       <div className='px-[22px] flex flex-col space-y-6'>
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={'/'}>Experts</Link>
+          <Link to={'/'}>Mentors</Link>
           /
           <span className="text-muted-foreground">{mentor?.user.first_name}{" "}{mentor?.user.last_name}</span>
         </div>
 
-        <Profile name={mentor?.user.first_name + " " + mentor?.user.last_name} />
+        <Profile
+          src={mentor.user.profile_picture ?? "/"}
+          name={mentor?.user.first_name + " " + mentor?.user.last_name}
+        />
         <Separator />
 
         <div className="flex flex-col gap-4">
@@ -49,11 +54,14 @@ const Details = () => {
           </div>
 
           <div className="flex flex-row gap-0 items-center">
-            <Star size={16} color="#FFB000" fill="#FFB000" />
-            <Star size={16} color="#FFB000" fill="#FFB000" />
-            <Star size={16} color="#FFB000" fill="#FFB000" />
-            <Star size={16} color="#FFB000" fill="#FFB000" />
-            <Star size={16} color="#FFB000" />
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={16}
+                color="#FFB000"
+                fill={i < Math.floor(parseFloat(mentor!.rating)) ? "#FFB000" : "none"}
+              />
+            ))}
             {/* TODO - rating list 404 in the API */}
             <p className="ml-2 text-[#FFB000]">{mentor?.rating} <span className="text-muted-foreground">(27)</span></p>
           </div>

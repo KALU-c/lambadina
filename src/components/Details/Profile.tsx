@@ -3,17 +3,18 @@ import { Badge } from "../ui/badge"
 import { useState } from "react";
 
 type ProfileProps = {
+  src: string
   name?: string
 }
 
-const Profile = ({ name }: ProfileProps) => {
+const Profile = ({ name, src }: ProfileProps) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative w-full h-[407px]">
         <img
-          src={"/images/p8-lg.png"}
+          src={src}
           className="w-full h-[407px] object-cover rounded-[8px]"
         />
         <Heart

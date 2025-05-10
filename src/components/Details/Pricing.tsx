@@ -13,8 +13,8 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
     <Tabs defaultValue="basic" ref={ref}>
       <TabsList>
         <TabsTrigger value="basic">Basic</TabsTrigger>
-        <TabsTrigger value="standard">Standard</TabsTrigger>
-        <TabsTrigger value="premium">Premium</TabsTrigger>
+        <TabsTrigger value="standard" disabled>Standard</TabsTrigger>
+        <TabsTrigger value="premium" disabled>Premium</TabsTrigger>
       </TabsList>
       <TabsContent value="basic" className="font-light flex flex-col gap-4 rounded-b-xl">
         <p className="text-lg">
