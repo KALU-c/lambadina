@@ -19,7 +19,7 @@ export const changeLanguage = () => {
   const newLang = i18n.language === "en" ? "am" : "en";
 
   i18n.changeLanguage(newLang);
-  localStorage.setItem("app_language", newLang);
+  localStorage.setItem("lambadina_i18nextLgn", newLang);
 
   toast.success(t("language_changed_to", { lang: newLang === "en" ? "English" : "Amharic" }));
   playNotificationSound();

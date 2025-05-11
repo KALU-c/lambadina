@@ -114,5 +114,12 @@
   "login_dont_have_account": "መለያ የለዎትም?",
   "login_register": "መዝግብ",
   "zod_login_username_required": "የተጠቃሚ ስም አስፈላጊ ነው",
-  "zod_login_password_required": "የይለፍ ቃል አስፈላጊ ነው"
+  "zod_login_password_required": "የይለፍ ቃል አስፈላጊ ነው",
+
+  "details_loading": "መምሪያ ምንባብ በሂላቅ ላይ ነው...",
+  "details_not_found": "መምሪያ አልተገኘም።",
+  "details_breadcrumb_home": "መምሪያዎች",
+  "details_starting_from": "ከምን ጀምሮ",
+  "details_currency": "ኢትቢ",
+  "details_see_plans": "እትም ማየት"
 }

@@ -114,5 +114,12 @@
   "login_dont_have_account": "Don't have an account?",
   "login_register": "Register",
   "zod_login_username_required": "Username is required",
-  "zod_login_password_required": "Password is required"
+  "zod_login_password_required": "Password is required",
+
+  "details_loading": "Loading mentor details...",
+  "details_not_found": "Mentor not found.",
+  "details_breadcrumb_home": "Mentors",
+  "details_starting_from": "Starting From",
+  "details_currency": "ETB",
+  "details_see_plans": "See Plans"
 }

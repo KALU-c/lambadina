@@ -12,8 +12,11 @@ import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import type { MentorProfile } from "@/types/mentor";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Details = () => {
+  const { t } = useTranslation();
+
   const [mentor, setMentor] = useState<MentorProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const pricingRef = useRef<HTMLDivElement | null>(null);
@@ -41,14 +44,14 @@ const Details = () => {
   if (loading)
     return (
       <div className="py-12 text-center text-gray-500 text-lg">
-        Loading mentor details...
+        {t("details_loading")}
       </div>
     );
 
   if (!mentor)
     return (
       <div className="py-12 text-center text-red-500 text-lg">
-        Mentor not found.
+        {t("details_not_found")}
       </div>
     );
 
@@ -58,7 +61,7 @@ const Details = () => {
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={"/"}>Mentors</Link>
+          <Link to={"/"}>{t("details_breadcrumb_home")}</Link>
           /
           <span className="text-muted-foreground">
             {mentor.user.first_name ?? ''} {mentor.user.last_name ?? ''}
@@ -74,9 +77,9 @@ const Details = () => {
         <div className="flex flex-col gap-4">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-col gap-0">
-              <p className="text-muted-foreground text-lg">Starting From</p>
+              <p className="text-muted-foreground text-lg">{t("details_starting_from")}</p>
               <p className="text-xl font-medium">
-                {mentor.price_per_minute ?? ''} ETB
+                {mentor.price_per_minute ?? ''} {t("details_currency")}
               </p>
             </div>
             <Button
@@ -88,7 +91,7 @@ const Details = () => {
                 })
               }
             >
-              See Plans
+              {t("details_see_plans")}
             </Button>
           </div>
 

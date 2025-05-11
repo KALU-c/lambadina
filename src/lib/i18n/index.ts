@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import enCommon from './locales/en/common.json'
 import amCommon from './locales/am/common.json'
 
-const savedLanguage = localStorage.getItem('app_language') || 'en'
+const savedLanguage = localStorage.getItem('lambadina_i18nextLgn') || 'en'
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
