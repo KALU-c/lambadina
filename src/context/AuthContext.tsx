@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthLoaded, setIsAuthLoaded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    setIsAuthLoaded(true);
   }, []);
 
   const fetchUserProfile = async (token: string) => {
@@ -125,7 +128,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken, isLoading, register, login, logout, isAuthenticated }}
+      value={{ user, accessToken, isLoading, register, login, logout, isAuthenticated, isAuthLoaded }}
     >
       {children}
     </AuthContext.Provider>

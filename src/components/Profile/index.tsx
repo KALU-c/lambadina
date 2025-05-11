@@ -88,7 +88,6 @@ const Profile = () => {
             bio: data.bio,
           });
         } else {
-          console.log(accessToken)
           const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/profile/${user?.id}`, {
             headers: {
               "Authorization": `Bearer ${accessToken}`,
@@ -96,6 +95,7 @@ const Profile = () => {
             }
           });
           const data = await response.json();
+          console.log(data)
 
           form.reset({
             fullName: `${data.user.first_name} ${data.user.last_name}`,

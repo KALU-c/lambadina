@@ -10,7 +10,7 @@ import { useAuth } from './hooks/useAuth'
 import { ProtectedRoute } from './ProtectedRoute'
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAuthLoaded } = useAuth();
   const [isMobile, setIsMobile] = useState(true);
   const location = useLocation();
 
@@ -31,6 +31,10 @@ function App() {
 
   if (!isMobile) {
     return <RestrictedDevices />;
+  }
+
+  if (!isAuthLoaded) {
+    return <div className="py-12 text-center text-gray-500 text-lg">Loading...</div>;
   }
 
   return (
