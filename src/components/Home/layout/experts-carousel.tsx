@@ -4,8 +4,11 @@ import ExpertsCarouselSkeleton from "./experts-carousel-skeleton"
 import { Link } from "react-router"
 // import { MENTORS } from "@/constants/mentors"
 import type { MentorProfile } from "@/types/mentor"
+import { useTranslation } from "react-i18next"
 
 const ExpertsCarousel = () => {
+  const { t } = useTranslation();
+
   const [mentors, setMentors] = useState<MentorProfile[]>([])
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +35,9 @@ const ExpertsCarousel = () => {
   if (loading) {
     return (
       <div className="flex flex-col gap-3 py-2">
-        <span className="text-muted-foreground text-3xl">Ethiopia's Top Freelance Advisors at Your Fingertips!</span>
+        <span className="text-muted-foreground text-3xl">
+          {t("experts_carousel_title")}
+        </span>
 
         <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
           <ExpertsCarouselSkeleton />
@@ -53,7 +58,7 @@ const ExpertsCarousel = () => {
       {mentors.length > 0 && (
         <div className="flex flex-col gap-3 py-2">
           <span className="text-muted-foreground text-3xl">
-            Ethiopia's Top Freelance Advisors at Your Fingertips!
+            {t("experts_carousel_title")}
           </span>
 
           <Suspense fallback={<ExpertsCarouselSkeleton />}>

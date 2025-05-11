@@ -1,17 +1,27 @@
-import { BadgeInfo, Blend, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
+import { BadgeInfo, Blend, Languages, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetHeader,
-  SheetFooter
+  SheetFooter,
+  SheetClose
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
 import { useAuth } from "@/hooks/useAuth"
+import i18n from "@/lib/i18n"
+import { toast } from "sonner"
+import { playNotificationSound } from "@/lib/utils"
 
 const MenuSheet = () => {
   const { isAuthenticated, logout } = useAuth();
+
+  const changeLanguage = () => {
+    toast.success(`Language changed to ${i18n.language === 'en' ? 'Amharic' : 'English'}`)
+    playNotificationSound();
+    return i18n.language === 'en' ? i18n.changeLanguage('am') : i18n.changeLanguage('en')
+  }
 
   return (
     <div>
@@ -45,6 +55,12 @@ const MenuSheet = () => {
             </Button>
           </SheetHeader>
           <SheetFooter>
+            <SheetClose>
+              <Button variant={'secondary'} className="justify-start items-center w-full" onClick={changeLanguage}>
+                <Languages className="mr-2" />
+                Change Language
+              </Button>
+            </SheetClose>
             {isAuthenticated ? (
               <>
                 <Button className="w-full" size={'lg'} onClick={logout}>

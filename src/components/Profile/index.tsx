@@ -73,7 +73,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        if (user?.user_type === "client") {
+        if (user?.user_type !== "client") {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${user?.id}`);
           const data = await response.json();
 
@@ -95,6 +95,7 @@ const Profile = () => {
             }
           });
           const data = await response.json();
+          console.log(accessToken)
           console.log(data)
 
           form.reset({

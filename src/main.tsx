@@ -5,6 +5,7 @@ import App from './App.tsx'
 import { Toaster } from 'sonner'
 import { AuthProvider } from './context/AuthContext.tsx'
 import { BrowserRouter } from 'react-router'
+import '@/lib/i18n'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
