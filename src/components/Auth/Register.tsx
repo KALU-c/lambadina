@@ -41,7 +41,7 @@ const Register = () => {
 
   return (
     <>
-      <main className="px-[22px] pt-[10px] flex flex-col space-y-6 mb-14">
+      <main className="px-[22px] pt-[10px] flex flex-col space-y-8 mb-14">
         <AuthNavbar />
 
         <Card>
@@ -120,7 +120,7 @@ const Register = () => {
                   name="user_type"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="flex flex-col gap-2 py-2">
+                      <div className="flex flex-col gap-2 py-6">
                         <span className="text-lg">I want to join as:</span>
                         <RadioGroup
                           defaultValue="client"
