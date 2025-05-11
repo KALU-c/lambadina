@@ -6,8 +6,11 @@ import Login from './components/Auth/Login'
 import { useLayoutEffect, useState } from 'react'
 import RestrictedDevices from './components/RestrictedDevices'
 import Profile from './components/Profile'
+import { useAuth } from './hooks/useAuth'
+import { ProtectedRoute } from './ProtectedRoute'
 
 function App() {
+  const { isAuthenticated } = useAuth();
   const [isMobile, setIsMobile] = useState(true);
   const location = useLocation();
 
@@ -34,7 +37,9 @@ function App() {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/mentors/:mentorId' element={<Details />} />
-      <Route path='/profile' element={<Profile />} />
+      <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+        <Route path='/profile' element={<Profile />} />
+      </Route>
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
     </Routes>

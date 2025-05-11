@@ -52,7 +52,9 @@ const ExpertsCarousel = () => {
     <>
       {mentors.length > 0 && (
         <div className="flex flex-col gap-3 py-2">
-          <span className="text-muted-foreground text-3xl">Ethiopia's Top Freelance Advisors at Your Fingertips!</span>
+          <span className="text-muted-foreground text-3xl">
+            Ethiopia's Top Freelance Advisors at Your Fingertips!
+          </span>
 
           <Suspense fallback={<ExpertsCarouselSkeleton />}>
             <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">

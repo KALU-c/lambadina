@@ -4,8 +4,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./layout/pricing-tabs"
 import { nanoid } from 'nanoid'
 import { useAuth } from "@/hooks/useAuth"
 import { Link } from "react-router"
+import type { MentorProfile } from "@/types/mentor"
 
-const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
+type PricingProps = {
+  ref: React.RefObject<null | HTMLDivElement>
+  mentor: MentorProfile
+}
+
+const Pricing = ({ ref, mentor }: PricingProps) => {
   const { isAuthenticated } = useAuth();
   const [txRef, setTxRef] = useState("");
 
@@ -32,7 +38,7 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
         <form method="POST" action="https://api.chapa.co/v1/hosted/pay">
           <input type="hidden" name="public_key" value={import.meta.env.VITE_CHAPA_PUBLIC_API_KEY} />
           <input type="hidden" name="tx_ref" value={txRef} onSubmit={() => setTxRef(nanoid())} />
-          <input type="hidden" name="amount" value={12000} />
+          <input type="hidden" name="amount" value={mentor.price_per_minute} />
           <input type="hidden" name="currency" value="ETB" />
           <input type="hidden" name="email" value="endekaluzemenu2134@gmail.com" />
           <input type="hidden" name="first_name" value="Endekalu" />

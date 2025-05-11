@@ -27,12 +27,14 @@ const MenuSheet = () => {
                 Find Mentor
               </Button>
             </Link>
-            <Link to={"/profile"}>
-              <Button variant={'secondary'} className="justify-start items-center py-6 w-full">
-                <User2 className="mr-2" />
-                Profile
-              </Button>
-            </Link>
+            {isAuthenticated && (
+              <Link to={"/profile"}>
+                <Button variant={'secondary'} className="justify-start items-center py-6 w-full">
+                  <User2 className="mr-2" />
+                  Profile
+                </Button>
+              </Link>
+            )}
             <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
               <Blend className="mr-2" />
               Categories

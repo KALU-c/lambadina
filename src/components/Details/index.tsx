@@ -113,7 +113,7 @@ const Details = () => {
         </div>
 
         <AboutMe />
-        <Pricing ref={pricingRef} />
+        <Pricing ref={pricingRef} mentor={mentor} />
 
         <CTA className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]" />
 

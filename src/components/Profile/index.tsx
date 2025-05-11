@@ -48,9 +48,10 @@ const profileFormSchema = z.object({
 });
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, accessToken } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -65,6 +66,8 @@ const Profile = () => {
       bio: "",
     },
   });
+
+
 
   // Fetch profile data
   useEffect(() => {
@@ -85,7 +88,13 @@ const Profile = () => {
             bio: data.bio,
           });
         } else {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/profile/${user?.id}`);
+          console.log(accessToken)
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/profile/${user?.id}`, {
+            headers: {
+              "Authorization": `Bearer ${accessToken}`,
+              "Content-Type": "application/json"
+            }
+          });
           const data = await response.json();
 
           form.reset({
@@ -108,7 +117,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, [form, user?.id, user?.user_type]);
+  }, [form, user?.id, user?.user_type, accessToken]);
 
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
     try {
