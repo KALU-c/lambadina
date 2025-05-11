@@ -56,7 +56,7 @@ const Profile = () => {
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       fullName: "",
-      username: "",
+      username: user?.username,
       phoneNumber: "",
       email: "",
       currentRole: "",
@@ -110,7 +110,6 @@ const Profile = () => {
     fetchProfile();
   }, [form, user?.id, user?.user_type]);
 
-  // Form submission
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
     try {
       const response = await fetch(`/api/mentors/mentors/${user?.id}`, {
@@ -121,7 +120,6 @@ const Profile = () => {
         body: JSON.stringify({
           bio: values.bio,
           categories: values.expertise.split(",").map((name) => ({ name })),
-          // Map other fields here if your backend supports updating them
         }),
       });
 

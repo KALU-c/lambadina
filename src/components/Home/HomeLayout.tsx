@@ -5,16 +5,24 @@ import SearchExperts from "./layout/search-experts"
 import ExpertsCarousel from "./layout/experts-carousel"
 import { Separator } from "@/components/ui/separator"
 import CTA from "./CTA"
-import { Suspense, useState, useMemo, useEffect } from "react"
+import { Suspense, useState, useMemo, useEffect, useRef } from "react"
 import ExpertsCardSkeleton from "./layout/experts-card-skeleton"
 import type { Category, MentorProfile } from "@/types/mentor"
 
 const HomeLayout = () => {
+  const tabsListRef = useRef<HTMLDivElement>(null)
   const [search, setSearch] = useState<string>('')
   const [activeTab, setActiveTab] = useState<string>('all-experts')
   const [mentors, setMentors] = useState<MentorProfile[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Reset scroll position to the beginning when component mounts
+  useEffect(() => {
+    if (tabsListRef.current) {
+      tabsListRef.current.scrollLeft = 0
+    }
+  }, [])
 
   // Fetch data on mount
   useEffect(() => {
@@ -130,10 +138,9 @@ const HomeLayout = () => {
           <div>
             <Tabs
               defaultValue="all-experts"
-              className="w-full"
               onValueChange={(value) => setActiveTab(value)}
             >
-              <TabsList className="bg-transparent overflow-x-scroll max-w-full scrollbar-thin">
+              <TabsList ref={tabsListRef} className="flex items-center justify-start bg-transparent overflow-x-auto whitespace-nowrap max-w-full scrollbar-thin">
                 <TabsTrigger value="all-experts">All Mentors</TabsTrigger>
                 <TabsTrigger value="top-experts">Top Mentors</TabsTrigger>
                 <TabsTrigger value="business-experts">Business</TabsTrigger>

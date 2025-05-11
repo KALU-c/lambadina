@@ -40,7 +40,7 @@ const Pricing = ({ ref }: { ref: React.RefObject<null | HTMLDivElement> }) => {
           <input type="hidden" name="title" value="Mentorship" />
           <input type="hidden" name="description" value="lorem" />
           <input type="hidden" name="callback_url" value="" />
-          <input type="hidden" name="return_url" value="" />
+          <input type="hidden" name="return_url" value={import.meta.env.VITE_BASE_URL} />
 
           {isAuthenticated ? (
             <Button size={'xlg'} className="text-black w-full" type="submit">

@@ -58,7 +58,7 @@ const ExpertsCarousel = () => {
             <div className="flex flex-row gap-6 overflow-x-auto scrollbar-hide py-2 -mx-[22px] px-[22px]">
               {topRatedMentors.map((mentor) => (
                 <Link
-                  to={`/mentors/${mentor.user.id}`}
+                  to={`/mentors/${mentor.id}`}
                   key={mentor.id}
                 >
                   <Avatar className="h-[96px] w-[96px]">
