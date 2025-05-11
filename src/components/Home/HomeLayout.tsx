@@ -8,8 +8,11 @@ import CTA from "./CTA"
 import { Suspense, useState, useMemo, useEffect, useRef } from "react"
 import ExpertsCardSkeleton from "./layout/experts-card-skeleton"
 import type { Category, MentorProfile } from "@/types/mentor"
+import { useTranslation } from "react-i18next"
 
 const HomeLayout = () => {
+  const { t } = useTranslation();
+
   const tabsListRef = useRef<HTMLDivElement>(null)
   const [search, setSearch] = useState<string>('')
   const [activeTab, setActiveTab] = useState<string>('all-experts')
@@ -141,9 +144,9 @@ const HomeLayout = () => {
               onValueChange={(value) => setActiveTab(value)}
             >
               <TabsList ref={tabsListRef} className="flex items-center justify-start bg-transparent overflow-x-auto whitespace-nowrap max-w-full scrollbar-thin">
-                <TabsTrigger value="all-experts">All Mentors</TabsTrigger>
-                <TabsTrigger value="top-experts">Top Mentors</TabsTrigger>
-                <TabsTrigger value="business-experts">Business</TabsTrigger>
+                <TabsTrigger value="all-experts">{t('all_mentors')}</TabsTrigger>
+                <TabsTrigger value="top-experts">{t('top_mentors')}</TabsTrigger>
+                <TabsTrigger value="business-experts">{t('business')}</TabsTrigger>
                 {categories.map(category => (
                   <TabsTrigger
                     key={category.id}
@@ -158,8 +161,8 @@ const HomeLayout = () => {
                 <SectionIndicator
                   className="pb-6"
                   highlightMainText={false}
-                  mainText="All Experts."
-                  text="Browse through our diverse pool of experts"
+                  mainText="all_experts_title"
+                  text="all_experts_text"
                 />
                 {renderMentorsList(mentors)}
               </TabsContent>
@@ -168,8 +171,8 @@ const HomeLayout = () => {
                 <SectionIndicator
                   className="pb-6"
                   highlightMainText={false}
-                  mainText="Top Rated Experts."
-                  text="Highly rated by our community"
+                  mainText="top_experts_title"
+                  text="top_experts_text"
                 />
                 {renderMentorsList(mentors.filter(mentor => parseFloat(mentor.rating) >= 4.5))}
               </TabsContent>
@@ -178,8 +181,8 @@ const HomeLayout = () => {
                 <SectionIndicator
                   className="pb-6"
                   highlightMainText={false}
-                  mainText="Business Experts."
-                  text="Experts in business strategy and growth"
+                  mainText="business_experts_title"
+                  text="business_experts_text"
                 />
                 {renderMentorsList(mentors.filter(mentor =>
                   mentor.categories.some((category: Category) =>
@@ -243,14 +246,15 @@ const HomeLayout = () => {
               <SectionIndicator
                 className="pb-6"
                 highlightMainText={false}
-                mainText="Search Results."
-                text={`Found ${filteredMentors.length} mentors matching "${search}"`}
+                mainText="search_results_title"
+                text={t("search_results_text", { count: filteredMentors.length, query: search })
+                }
               />
               {renderMentorsGrid(filteredMentors)}
             </>
           ) : (
             <div className="text-center py-8">
-              <p className="text-lg text-gray-500">No mentors found matching your search.</p>
+              <p className="text-lg text-gray-500">{t("no_mentors_found")}</p>
             </div>
           )}
         </div>

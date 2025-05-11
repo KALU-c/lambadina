@@ -13,12 +13,14 @@ import { useAuth } from "@/hooks/useAuth"
 import i18n from "@/lib/i18n"
 import { toast } from "sonner"
 import { playNotificationSound } from "@/lib/utils"
+import { useTranslation } from "react-i18next"
 
 const MenuSheet = () => {
+  const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
 
   const changeLanguage = () => {
-    toast.success(`Language changed to ${i18n.language === 'en' ? 'Amharic' : 'English'}`)
+    toast.success(t("language_changed_to", { lang: i18n.language === 'en' ? 'Amharic' : 'English' }))
     playNotificationSound();
     return i18n.language === 'en' ? i18n.changeLanguage('am') : i18n.changeLanguage('en')
   }
@@ -34,50 +36,50 @@ const MenuSheet = () => {
             <Link to='/'>
               <Button variant={'secondary'} className="w-full justify-start items-center py-6">
                 <UserRoundSearch className="mr-2" />
-                Find Mentor
+                {t('find_mentor')}
               </Button>
             </Link>
             {isAuthenticated && (
               <Link to={"/profile"}>
                 <Button variant={'secondary'} className="justify-start items-center py-6 w-full">
                   <User2 className="mr-2" />
-                  Profile
+                  {t('profile')}
                 </Button>
               </Link>
             )}
             <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
               <Blend className="mr-2" />
-              Categories
+              {t('categories')}
             </Button>
             <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
               <BadgeInfo className="mr-2" />
-              About Us
+              {t('about_us')}
             </Button>
           </SheetHeader>
           <SheetFooter>
             <SheetClose>
               <Button variant={'secondary'} className="justify-start items-center w-full" onClick={changeLanguage}>
                 <Languages className="mr-2" />
-                Change Language
+                {t('change_language')}
               </Button>
             </SheetClose>
             {isAuthenticated ? (
               <>
                 <Button className="w-full" size={'lg'} onClick={logout}>
                   <LogOut />
-                  Logout
+                  {t('logout')}
                 </Button>
               </>
             ) : (
               <>
                 <Link to={'/login'}>
                   <Button variant={'secondary'} className="w-full">
-                    Login
+                    {t('login')}
                   </Button>
                 </Link>
                 <Link to={'/register'}>
                   <Button className="w-full">
-                    Sign Up
+                    {t('sign_up')}
                   </Button>
                 </Link>
               </>

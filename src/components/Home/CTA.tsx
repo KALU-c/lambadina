@@ -5,18 +5,18 @@ import CtaCard from "./layout/cta-card"
 const CTA_DATA: CtaCardProps[] = [
   {
     src: "/icons/search.png",
-    title: "Find an expert",
-    description: "Discover and choose from our list of the world's most in-demand experts"
+    title: "cta_find_expert_title",
+    description: "cta_find_expert_desc"
   },
   {
     src: "/icons/calendar.png",
-    title: "Book a video call",
-    description: "Select a time that works for both you and your expert's schedule"
+    title: "cta_book_call_title",
+    description: "cta_book_call_desc"
   },
   {
     src: "/icons/camera.png",
-    title: "Virtual consultation",
-    description: "Join the 1-on-1 video call, ask questions, and get expert advice"
+    title: "cta_virtual_consultation_title",
+    description: "cta_virtual_consultation_desc"
   }
 ]
 

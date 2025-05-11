@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next"
+
 export type CtaCardProps = {
   src: string
   title: string
@@ -9,6 +11,8 @@ const CtaCard = ({
   title,
   description
 }: CtaCardProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="h-[360px] w-full min-w-[330px] bg-zinc-100 flex flex-col items-center justify-center rounded-[8px] gap-4">
       <img
@@ -17,9 +21,9 @@ const CtaCard = ({
       />
 
       <div className="flex flex-col gap-2 px-12">
-        <h3 className="font-medium text-2xl text-center">{title}</h3>
+        <h3 className="font-medium text-2xl text-center">{t(title)}</h3>
         <p className="text-center text-xl font-light">
-          {description}
+          {t(description)}
         </p>
       </div>
     </div>
