@@ -11,41 +11,39 @@ import FAQ from "./FAQ-accordion";
 import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import type { MentorProfile } from "@/types/mentor";
-// import axios from "axios";
-import { MENTORS } from "@/constants/mentors";
+import axios from "axios";
 
 const Details = () => {
   const [mentor, setMentor] = useState<MentorProfile | null>(null);
-  // const [loading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const pricingRef = useRef<HTMLDivElement | null>(null);
   const { mentorId } = useParams();
 
   useEffect(() => {
-    setMentor(MENTORS.find(mentor => mentor.id === Number(mentorId))!);
-    // const fetchMentor = async () => {
-    //   try {
-    //     const { data } = await axios.get(`/api/mentors/mentors/${mentorId}/?format=json`);
-    //     console.log("Fetched Mentor:", data);
-    //     setMentor(data);
-    //   } catch (error) {
-    //     console.error("Error fetching mentor:", error);
-    //     setMentor(null);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+    const fetchMentor = async () => {
+      try {
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${mentorId}/`);
+        console.log("Fetched Mentor:", data);
+        setMentor(data);
+      } catch (error) {
+        console.error("Error fetching mentor:", error);
+        setMentor(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // if (mentorId) {
-    //   fetchMentor();
-    // }
+    if (mentorId) {
+      fetchMentor();
+    }
   }, [mentorId]);
 
-  // if (loading)
-  //   return (
-  //     <div className="py-12 text-center text-gray-500 text-lg">
-  //       Loading mentor details...
-  //     </div>
-  //   );
+  if (loading)
+    return (
+      <div className="py-12 text-center text-gray-500 text-lg">
+        Loading mentor details...
+      </div>
+    );
 
   if (!mentor)
     return (
