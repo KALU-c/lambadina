@@ -10,20 +10,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
 import { useAuth } from "@/hooks/useAuth"
-import i18n from "@/lib/i18n"
-import { toast } from "sonner"
-import { playNotificationSound } from "@/lib/utils"
+import { changeLanguage } from "@/lib/utils"
 import { useTranslation } from "react-i18next"
 
 const MenuSheet = () => {
   const { t } = useTranslation();
   const { isAuthenticated, logout } = useAuth();
-
-  const changeLanguage = () => {
-    toast.success(t("language_changed_to", { lang: i18n.language === 'en' ? 'Amharic' : 'English' }))
-    playNotificationSound();
-    return i18n.language === 'en' ? i18n.changeLanguage('am') : i18n.changeLanguage('en')
-  }
 
   return (
     <div>

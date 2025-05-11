@@ -19,6 +19,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Category } from "@/types/mentor";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
@@ -48,6 +49,8 @@ const profileFormSchema = z.object({
 });
 
 const Profile = () => {
+  const { t } = useTranslation()
+
   const { user, accessToken } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -68,8 +71,6 @@ const Profile = () => {
   });
 
 
-
-  // Fetch profile data
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -146,7 +147,7 @@ const Profile = () => {
   };
 
   if (loading) {
-    return <div className="p-10 text-center">Loading profile...</div>;
+    return <div className="p-10 text-center">{t("loading_profile")}</div>;
   }
 
   return (
@@ -155,8 +156,8 @@ const Profile = () => {
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={"/"}>Mentor Profile</Link>/
-          <span className="text-muted-foreground">Profile</span>
+          <Link to={"/"}>{t("profile")}</Link>/
+          <span className="text-muted-foreground">{user?.username}</span>
         </div>
 
         <Form {...form}>
@@ -165,7 +166,7 @@ const Profile = () => {
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
-                Personal Information
+                {t("personal_information")}
               </div>
 
               <div className="flex flex-col space-y-4">
@@ -174,7 +175,7 @@ const Profile = () => {
                   name="fullName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>{t("full_name")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -191,7 +192,7 @@ const Profile = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>{t("username")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -208,7 +209,7 @@ const Profile = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>{t("phone_number")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -225,7 +226,7 @@ const Profile = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("email")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -244,7 +245,7 @@ const Profile = () => {
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
-                Professional Information
+                {t("profession_information")}
               </div>
 
               <div className="flex flex-col space-y-4">
@@ -253,7 +254,7 @@ const Profile = () => {
                   name="currentRole"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Current Role</FormLabel>
+                      <FormLabel>{t("current_role")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -270,7 +271,7 @@ const Profile = () => {
                   name="experienceLevel"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Experience Level</FormLabel>
+                      <FormLabel>{t("experience_level")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -287,7 +288,7 @@ const Profile = () => {
                   name="expertise"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Expertise</FormLabel>
+                      <FormLabel>{t("expertise")}</FormLabel>
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
@@ -306,7 +307,7 @@ const Profile = () => {
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
-                Profile Picture and Bio
+                {t("profile_picture_and_bio")}
               </div>
 
               <div className="flex flex-col space-y-4">
@@ -314,7 +315,7 @@ const Profile = () => {
                   <div className="p-4 bg-zinc-100 rounded-full">
                     <Camera className="text-muted-foreground" />
                   </div>
-                  Upload a profile picture
+                  {t("upload_profile_picture")}
                 </div>
 
                 <FormField
@@ -322,7 +323,7 @@ const Profile = () => {
                   name="bio"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Bio</FormLabel>
+                      <FormLabel>{t("bio")}</FormLabel>
                       <FormControl>
                         <Textarea
                           className="bg-zinc-100 h-52"
@@ -341,16 +342,16 @@ const Profile = () => {
             <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
-                Security
+                {t("security")}
               </div>
 
-              <Button variant="secondary" disabled>Update Password</Button>
+              <Button variant="secondary" disabled>{t("update_password")}</Button>
 
               <div className="py-4 flex flex-row w-full items-center gap-2">
                 {isEditing ? (
                   <>
                     <Button type="submit" className="flex-4/6" disabled>
-                      Save Changes
+                      {t("save_changes")}
                     </Button>
                     <Button
                       disabled
@@ -359,7 +360,7 @@ const Profile = () => {
                       className="flex-2/4"
                       onClick={() => setIsEditing(false)}
                     >
-                      Cancel
+                      {t("cancel")}
                     </Button>
                   </>
                 ) : (
@@ -369,7 +370,7 @@ const Profile = () => {
                     className="w-full"
                     onClick={() => setIsEditing(true)}
                   >
-                    Update Profile
+                    {t("update_profile")}
                   </Button>
                 )}
               </div>

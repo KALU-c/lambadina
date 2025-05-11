@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next'
 import enCommon from './locales/en/common.json'
 import amCommon from './locales/am/common.json'
 
+const savedLanguage = localStorage.getItem('app_language') || 'en'
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
@@ -17,7 +19,7 @@ i18n
         translation: amCommon
       }
     },
-    lng: "en", // if you're using a language detector, do not define the lng option
+    lng: savedLanguage, // if you're using a language detector, do not define the lng option
     fallbackLng: "en",
     interpolation: {
       escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
