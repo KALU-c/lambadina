@@ -20,31 +20,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { Category } from "@/types/mentor";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
-    message: "Full name must be at least 2 characters.",
+    message: i18n.t("zod_full_name_min"),
   }),
   username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: i18n.t("zod_username_min"),
   }),
   phoneNumber: z.string().min(10, {
-    message: "Phone number must be at least 10 digits.",
+    message: i18n.t("zod_phone_number_min"),
   }),
   email: z.string().email({
-    message: "Please enter a valid email address.",
+    message: i18n.t("zod_email_invalid"),
   }),
   currentRole: z.string().min(2, {
-    message: "Current role must be at least 2 characters.",
+    message: i18n.t("zod_current_role_min"),
   }),
   experienceLevel: z.string().min(1, {
-    message: "Please select your experience level.",
+    message: i18n.t("zod_experience_level_required"),
   }),
   expertise: z.string().min(2, {
-    message: "Expertise must be at least 2 characters.",
+    message: i18n.t("zod_expertise_min"),
   }),
   bio: z.string().min(10, {
-    message: "Bio must be at least 10 characters.",
+    message: i18n.t("zod_bio_min"),
   }),
 });
 

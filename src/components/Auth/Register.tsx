@@ -20,8 +20,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/schema/registerSchema";
 import * as z from "zod";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
+  const { t } = useTranslation();
   const { register, isLoading } = useAuth();
 
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -49,9 +51,9 @@ const Register = () => {
             <img src="/logo.png" alt="lambadina logo" className="h-8 text-center" />
 
             <div className="flex flex-col">
-              <p className="text-center text-2xl">Create Account</p>
+              <p className="text-center text-2xl">{t("register_create_account")}</p>
               <span className="text-muted-foreground text-lg">
-                Join the Ethiopian Top Freelance Platform
+                {t("register_join_platform")}
               </span>
             </div>
           </CardHeader>
@@ -64,7 +66,7 @@ const Register = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Username</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("register_username")}</FormLabel>
                       <FormControl>
                         <Input {...field} className="h-10 rounded-sm focus-visible:ring-[#FFB000] focus-visible:border-[#FFB000]" />
                       </FormControl>
@@ -78,7 +80,7 @@ const Register = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Email</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("register_email")}</FormLabel>
                       <FormControl>
                         <Input {...field} className="h-10 rounded-sm focus-visible:ring-[#FFB000] focus-visible:border-[#FFB000]" />
                       </FormControl>
@@ -92,7 +94,7 @@ const Register = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Password</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("register_password")}</FormLabel>
                       <FormControl>
                         <Input type="password" {...field} className="h-10 rounded-sm focus-visible:ring-[#FFB000] focus-visible:border-[#FFB000]" />
                       </FormControl>
@@ -106,7 +108,7 @@ const Register = () => {
                   name="password2"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Confirm Password</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("register_confirm_password")}</FormLabel>
                       <FormControl>
                         <Input type="password" {...field} className="h-10 rounded-sm focus-visible:ring-[#FFB000] focus-visible:border-[#FFB000]" />
                       </FormControl>
@@ -121,7 +123,7 @@ const Register = () => {
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex flex-col gap-2 py-6">
-                        <span className="text-lg">I want to join as:</span>
+                        <span className="text-lg">{t("register_i_want_to_join_as")}</span>
                         <RadioGroup
                           defaultValue="client"
                           onValueChange={field.onChange}
@@ -129,11 +131,11 @@ const Register = () => {
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem className="h-5 w-5 [&_svg]:h-3 [&_svg]:w-3" id="client" value="client" />
-                            <Label htmlFor="client" className="text-md font-light">Client</Label>
+                            <Label htmlFor="client" className="text-md font-light">{t("register_client")}</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem className="h-5 w-5 [&_svg]:h-3 [&_svg]:w-3" id="mentor" value="mentor" />
-                            <Label htmlFor="mentor" className="text-md font-light">Mentor</Label>
+                            <Label htmlFor="mentor" className="text-md font-light">{t("register_mentor")}</Label>
                           </div>
                         </RadioGroup>
                       </div>
@@ -151,12 +153,14 @@ const Register = () => {
                   disabled={isLoading}
                 >
                   <Loader className={isLoading ? "block animate-spin mr-2" : "hidden"} />
-                  Create Account
+                  {t("register_create_account_button")}
                 </Button>
                 <p className="text-muted-foreground">
-                  Already have an account?{" "}
+                  {t("register_already_have_an_account")}{" "}
                   <Link to={"/login"}>
-                    <span className="underline underline-offset-1 text-[#FFB000]">Sign In</span>
+                    <span className="underline underline-offset-1 text-[#FFB000]">
+                      {t("register_sign_in")}
+                    </span>
                   </Link>
                 </p>
               </CardFooter>

@@ -1,6 +1,6 @@
 import * as z from "zod";
+import i18n from "@/lib/i18n"; // your i18next config
 
-// Example common passwords list — extend as needed or fetch from backend
 const commonPasswords = [
   "password",
   "12345678",
@@ -16,52 +16,52 @@ export const registerSchema = z
   .object({
     username: z
       .string()
-      .min(1, "Username is required")
-      .max(150, "Username must be 150 characters or fewer")
-      .regex(/^[\w.@+-]+$/, "Username can only contain letters, digits and @/./+/-/_"),
+      .min(1, i18n.t("zod_register_username_required"))
+      .max(150, i18n.t("zod_register_username_max"))
+      .regex(/^[\w.@+-]+$/, i18n.t("zod_register_username_invalid")),
 
     password: z
       .string()
-      .min(8, "This password is too short. It must contain at least 8 characters.")
+      .min(8, i18n.t("zod_register_password_too_short"))
       .refine(
         (val) => !commonPasswords.includes(val),
-        { message: "This password is too common." }
+        { message: i18n.t("zod_register_password_too_common") }
       )
       .refine(
         (val) => !/^\d+$/.test(val),
-        { message: "This password is entirely numeric." }
+        { message: i18n.t("zod_register_password_entirely_numeric") }
       )
       .describe("writeOnly"),
 
     password2: z
       .string()
-      .min(1, "Password confirmation is required")
+      .min(1, i18n.t("zod_register_password2_required"))
       .describe("writeOnly"),
 
     email: z
       .string()
-      .email("Invalid email address")
-      .max(254, "Email must be 254 characters or fewer")
+      .email(i18n.t("zod_register_email_invalid"))
+      .max(254, i18n.t("zod_register_email_max"))
       .optional(),
 
     first_name: z
       .string()
-      .max(150, "First name must be 150 characters or fewer")
+      .max(150, i18n.t("zod_register_first_name_max"))
       .optional(),
 
     last_name: z
       .string()
-      .max(150, "Last name must be 150 characters or fewer")
+      .max(150, i18n.t("zod_register_last_name_max"))
       .optional(),
 
     phone_number: z
       .string()
-      .max(15, "Phone number must be 15 characters or fewer")
+      .max(15, i18n.t("zod_register_phone_max"))
       .optional(),
 
     user_type: z
       .enum(["client", "mentor", "admin"], {
-        errorMap: () => ({ message: "Invalid user type" }),
+        errorMap: () => ({ message: i18n.t("zod_register_user_type_required") }),
       }),
 
     profile_picture: z
@@ -70,6 +70,6 @@ export const registerSchema = z
       .optional(),
   })
   .refine((data) => data.password === data.password2, {
-    message: "Passwords don't match",
+    message: i18n.t("zod_register_passwords_must_match"),
     path: ["password2"],
   });

@@ -18,8 +18,11 @@ import * as z from "zod";
 import { loginSchema } from "@/schema/loginSchema";
 import { Loader } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
+
   const { isLoading, login } = useAuth()
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,9 +47,9 @@ const Login = () => {
             <img src="/logo.png" alt="lambadina logo" className="h-8 text-center" />
 
             <div className="flex flex-col">
-              <p className="text-center text-2xl">Welcome Back</p>
+              <p className="text-center text-2xl">{t("login_welcome_back")}</p>
               <span className="text-muted-foreground text-lg">
-                Sign in to continue to Lambadina
+                {t("login_sign_in_to_continue")}
               </span>
             </div>
           </CardHeader>
@@ -59,7 +62,7 @@ const Login = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Username</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("login_username")}</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -76,7 +79,7 @@ const Login = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-light">Password</FormLabel>
+                      <FormLabel className="text-lg font-light">{t("login_password")}</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -98,12 +101,14 @@ const Login = () => {
                   disabled={isLoading}
                 >
                   <Loader className={isLoading ? "block animate-spin mr-2" : "hidden"} />
-                  Sign In
+                  {t("login_sign_in_button")}
                 </Button>
                 <p className="text-muted-foreground">
-                  Don't have an account?{" "}
+                  {t("login_dont_have_account")}{" "}
                   <Link to={"/register"}>
-                    <span className="underline underline-offset-1 text-[#FFB000]">Register</span>
+                    <span className="underline underline-offset-1 text-[#FFB000]">
+                      {t("login_register")}
+                    </span>
                   </Link>
                 </p>
               </CardFooter>
