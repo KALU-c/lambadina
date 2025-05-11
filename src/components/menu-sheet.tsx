@@ -27,7 +27,7 @@ const MenuSheet = () => {
                 Find Mentor
               </Button>
             </Link>
-            <Button variant={'secondary'} className="justify-start items-center py-6">
+            <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
               <Blend className="mr-2" />
               Categories
             </Button>
@@ -37,7 +37,7 @@ const MenuSheet = () => {
                 Profile
               </Button>
             </Link>
-            <Button variant={'secondary'} className="justify-start items-center py-6">
+            <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
               <BadgeInfo className="mr-2" />
               About Us
             </Button>
