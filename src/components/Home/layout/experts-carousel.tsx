@@ -22,8 +22,8 @@ const ExpertsCarousel = () => {
         const mentorsData = await mentorsRes.json()
 
         setMentors(mentorsData)
-      } catch (err) {
-        console.error('Failed to fetch mentors or categories:', err)
+      } catch {
+        console.error('Failed to fetch mentors or categories')
       } finally {
         setLoading(false)
       }

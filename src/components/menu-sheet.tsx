@@ -26,38 +26,36 @@ const MenuSheet = () => {
         <SheetContent>
           <SheetHeader className="mt-10 gap-3">
             <Link to='/'>
-              <Button variant={'secondary'} className="w-full justify-start items-center py-6">
+              <Button variant={'secondary'} className="w-full justify-start items-center py-4">
                 <UserRoundSearch className="mr-2" />
                 {t('find_mentor')}
               </Button>
             </Link>
             {isAuthenticated && (
               <Link to={"/profile"}>
-                <Button variant={'secondary'} className="justify-start items-center py-6 w-full">
+                <Button variant={'secondary'} className="justify-start items-center py-4 w-full">
                   <User2 className="mr-2" />
                   {t('profile')}
                 </Button>
               </Link>
             )}
-            <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
+            <Button variant={'secondary'} className="justify-start items-center py-4" disabled>
               <Blend className="mr-2" />
               {t('categories')}
             </Button>
-            <Button variant={'secondary'} className="justify-start items-center py-6" disabled>
+            <Button variant={'secondary'} className="justify-start items-center py-4" disabled>
               <BadgeInfo className="mr-2" />
               {t('about_us')}
             </Button>
           </SheetHeader>
-          <SheetFooter>
-            <SheetClose>
-              <Button variant={'secondary'} className="justify-start items-center w-full" onClick={changeLanguage}>
-                <Languages className="mr-2" />
-                {t('change_language')}
-              </Button>
+          <SheetFooter className="flex flex-col gap-3">
+            <SheetClose className="flex items-center gap-2 py-2 rounded-md justify-start px-4 bg-zinc-100" onClick={changeLanguage}>
+              <Languages className="mr-2" size={18} />
+              {t('change_language')}
             </SheetClose>
             {isAuthenticated ? (
               <>
-                <Button className="w-full" size={'lg'} onClick={logout}>
+                <Button className="w-full justify-start" size={'lg'} onClick={logout}>
                   <LogOut />
                   {t('logout')}
                 </Button>

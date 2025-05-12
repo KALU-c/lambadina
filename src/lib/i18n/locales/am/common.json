@@ -121,5 +121,8 @@
   "details_breadcrumb_home": "መምሪያዎች",
   "details_starting_from": "ከምን ጀምሮ",
   "details_currency": "ኢትቢ",
-  "details_see_plans": "እትም ማየት"
+  "details_see_plans": "እትም ማየት",
+
+  "home_subscribe": "Sign up free as a client or advisor",
+  "home_subscribe_button": "Submit"
 }

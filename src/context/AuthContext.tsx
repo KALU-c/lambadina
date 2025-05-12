@@ -39,8 +39,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const profileData: UserType = response.data;
       setUser(profileData);
       localStorage.setItem("user", JSON.stringify(profileData));
-    } catch (err) {
-      console.error("Error fetching user profile", err);
+    } catch {
+      console.error("Error fetching user profile");
       toast.error("Failed to fetch user profile. Please try again.");
     }
   };

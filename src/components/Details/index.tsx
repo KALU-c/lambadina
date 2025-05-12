@@ -28,8 +28,8 @@ const Details = () => {
         const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${mentorId}/`);
         console.log("Fetched Mentor:", data);
         setMentor(data);
-      } catch (error) {
-        console.error("Error fetching mentor:", error);
+      } catch {
+        console.error("Error fetching mentor");
         setMentor(null);
       } finally {
         setLoading(false);

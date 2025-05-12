@@ -121,5 +121,8 @@
   "details_breadcrumb_home": "Mentors",
   "details_starting_from": "Starting From",
   "details_currency": "ETB",
-  "details_see_plans": "See Plans"
+  "details_see_plans": "See Plans",
+
+  "home_subscribe": "Subscribe to our newsletter",
+  "home_subscribe_button": "Submit"
 }

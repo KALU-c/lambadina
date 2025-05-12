@@ -25,6 +25,7 @@ const CTA = ({ className }: { className?: string }) => {
     <div className={cn("flex flex-col gap-6 py-2", className)}>
       {CTA_DATA.map(item => (
         <CtaCard
+          key={item.title}
           src={item.src}
           title={item.title}
           description={item.description}

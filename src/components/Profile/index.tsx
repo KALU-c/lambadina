@@ -113,8 +113,8 @@ const Profile = () => {
         }
 
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
+      } catch {
+        console.error("Error fetching profile");
         setLoading(false);
       }
     };
@@ -141,8 +141,8 @@ const Profile = () => {
 
       alert("Profile updated successfully!");
       setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile:", error);
+    } catch {
+      console.error("Error updating profile");
       alert("Failed to update profile.");
     }
   };
