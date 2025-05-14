@@ -1,17 +1,16 @@
-import { BadgeInfo, Blend, Languages, LayoutDashboardIcon, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
+import { BadgeInfo, Blend, LayoutDashboardIcon, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetFooter,
-  SheetClose
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
 import { useAuth } from "@/hooks/useAuth"
-import { changeLanguage } from "@/lib/utils"
 import { useTranslation } from "react-i18next"
+import ChangeLanguage from "./change-language"
 
 const MenuSheet = () => {
   const { t } = useTranslation();
@@ -58,10 +57,7 @@ const MenuSheet = () => {
             </Button>
           </SheetHeader>
           <SheetFooter className="flex flex-col gap-3">
-            <SheetClose className="flex items-center gap-2 py-2 rounded-md justify-start px-4 bg-zinc-100" onClick={changeLanguage}>
-              <Languages className="mr-2" size={18} />
-              {t('change_language')}
-            </SheetClose>
+            <ChangeLanguage />
             {isAuthenticated ? (
               <>
                 <Button className="w-full justify-start" size={'lg'} onClick={logout}>
