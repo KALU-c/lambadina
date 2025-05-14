@@ -8,6 +8,7 @@ import RestrictedDevices from './components/RestrictedDevices'
 import Profile from './components/Profile'
 import { useAuth } from './hooks/useAuth'
 import { ProtectedRoute } from './ProtectedRoute'
+import Dashboard from './components/Dashboard'
 
 function App() {
   const { isAuthenticated, isAuthLoaded } = useAuth();
@@ -43,6 +44,7 @@ function App() {
       <Route path='/mentors/:mentorId' element={<Details />} />
       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path='/profile' element={<Profile />} />
+        <Route path='/dashboard' element={<Dashboard />} />
       </Route>
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />

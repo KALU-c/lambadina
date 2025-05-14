@@ -157,8 +157,8 @@ const Profile = () => {
         <DetailsNavbar />
 
         <div className="flex flex-row gap-2 text-lg flex-wrap">
-          <Link to={"/"}>{t("profile")}</Link>/
-          <span className="text-muted-foreground">{user?.username}</span>
+          <Link to={"/"} className="text-muted-foreground">{t("profile")}</Link>/
+          <span>{user?.username}</span>
         </div>
 
         <Form {...form}>

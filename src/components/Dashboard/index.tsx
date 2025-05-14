@@ -1,0 +1,141 @@
+import { Link } from "react-router"
+import DetailsNavbar from "../Details/layout/navbar"
+import Footer from "../Footer"
+import { useTranslation } from "react-i18next"
+import { useAuth } from "@/hooks/useAuth"
+import { Button } from "../ui/button"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion"
+import { Activity, Check, Star, X } from "lucide-react"
+
+
+const items = [
+  {
+    name: "Terefe Girma",
+    date: "May 16, 2:00",
+    plan: "Basic"
+  },
+  {
+    name: "Hagos Hadish",
+    date:
+      "May 8, 10:00",
+    plan: "Premium"
+  },
+  {
+    name: "Meiraf Hadish",
+    date:
+      "May 19, 8:00",
+    plan: "Premium"
+  },
+  {
+    name: "Teshita Elias",
+    date:
+      "May 22, 5:00",
+    plan: "Premium"
+  },
+];
+
+const Dashboard = () => {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+
+  return (
+    <main className="pt-[10px] flex flex-col">
+      <div className="px-[22px] flex flex-col space-y-6 mb-10">
+        <DetailsNavbar />
+
+        <div className="flex flex-row gap-2 text-lg flex-wrap">
+          <Link to={"/"} className="text-muted-foreground">
+            {t("dashboard")}
+          </Link>/
+          <span>{user?.username}</span>
+        </div>
+
+        <div className="flex flex-col space-y-6">
+          <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
+            <span className="text-xl font-medium">Upcoming Call</span>
+
+            <div className="flex flex-col gap-0">
+              <span className="text-lg">Tefera Girma</span>
+              <span>May 16, 2:00</span>
+              <span>Package: Basic</span>
+            </div>
+
+            <div className="flex flex-row gap-2">
+              <Button className="flex-2/3 text-lg" size={'lg'}>Join Call</Button>
+              <Button variant={'secondary'} className="flex-1/3 bg-zinc-200" size={'lg'}>Cancel</Button>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
+            <span className="text-xl font-medium">Booking Requests</span>
+
+            <Accordion
+              defaultValue="item-0"
+              type="single"
+              collapsible
+              className="max-w-lg my-4 w-full"
+            >
+              {items.map(({ name, date, plan }, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className="data-[state=open]:border-b-2 data-[state=open]:border-[#FFB000] dark:data-[state=open]:border-[#FFB000]"
+                >
+                  <AccordionTrigger
+                    className="data-[state=open]:font-medium text-lg"
+                  >
+                    {name}
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-8 flex flex-col gap-3 text-md">
+                    <div className="flex flex-col gap-1 text-[15px]">
+                      <p className="text-muted-foreground">
+                        Date: <span className="text-black">{date}</span>
+                      </p>
+                      <p className="text-muted-foreground">
+                        Package: <span className="text-black">{plan}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex flex-row gap-2">
+                      <Button className="flex-1" size={'sm'}>Accept</Button>
+                      <Button className="flex-1 bg-zinc-200" size={'sm'} variant={'secondary'}>Decline</Button>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+          <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
+            <span className="text-xl font-medium">Earnings & Ratings</span>
+
+            <div className="flex flex-col gap-1 py-2">
+              <p className="flex flex-row items-center gap-2">
+                <Activity size={18} />
+                142,600 ETB
+              </p>
+
+              <p className="flex flex-row items-center gap-2">
+                <Check size={18} />
+                17 Sessions Completed
+              </p>
+
+              <p className="flex flex-row items-center gap-2">
+                <X size={18} />
+                6 Declined
+              </p>
+
+              <p className="flex flex-row items-center gap-2">
+                <Star size={18} />
+                4.5 Rating
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  )
+}
+
+export default Dashboard

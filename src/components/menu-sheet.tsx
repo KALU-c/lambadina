@@ -1,4 +1,4 @@
-import { BadgeInfo, Blend, Languages, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
+import { BadgeInfo, Blend, Languages, LayoutDashboardIcon, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
@@ -32,12 +32,21 @@ const MenuSheet = () => {
               </Button>
             </Link>
             {isAuthenticated && (
-              <Link to={"/profile"}>
-                <Button variant={'secondary'} className="justify-start items-center py-4 w-full">
-                  <User2 className="mr-2" />
-                  {t('profile')}
-                </Button>
-              </Link>
+              <>
+                <Link to={"/profile"}>
+                  <Button variant={'secondary'} className="justify-start items-center py-4 w-full">
+                    <User2 className="mr-2" />
+                    {t('profile')}
+                  </Button>
+                </Link>
+
+                <Link to={"/dashboard"}>
+                  <Button variant={'secondary'} className="justify-start items-center py-4 w-full">
+                    <LayoutDashboardIcon className="mr-2" />
+                    {t('dashboard')}
+                  </Button>
+                </Link>
+              </>
             )}
             <Button variant={'secondary'} className="justify-start items-center py-4" disabled>
               <Blend className="mr-2" />
