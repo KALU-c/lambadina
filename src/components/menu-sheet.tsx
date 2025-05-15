@@ -1,4 +1,4 @@
-import { BadgeInfo, Blend, LayoutDashboardIcon, LogOut, Menu, User2, UserRoundSearch } from "lucide-react"
+import { BadgeInfo, Blend, LayoutDashboardIcon, LogOut, Menu, User2, Users2 } from "lucide-react"
 import {
   Sheet,
   SheetTrigger,
@@ -26,7 +26,7 @@ const MenuSheet = () => {
           <SheetHeader className="mt-10 gap-3">
             <Link to='/'>
               <Button variant={'secondary'} className="w-full justify-start items-center py-4">
-                <UserRoundSearch className="mr-2" />
+                <Users2 className="mr-2" />
                 {t('find_mentor')}
               </Button>
             </Link>
