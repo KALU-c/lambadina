@@ -52,22 +52,24 @@ const Dashboard = () => {
 
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
-            <span className="text-xl font-medium">Upcoming Call</span>
+            <span className="text-xl font-medium">{t("dashboard_upcoming_call")}</span>
 
             <div className="flex flex-col gap-0">
               <span className="text-lg">Tefera Girma</span>
               <span>May 16, 2:00</span>
-              <span>Package: Basic</span>
+              <span>{t("dashboard_package")}: Basic</span>
             </div>
 
             <div className="flex flex-row gap-2">
-              <Button className="flex-2/3 text-lg" size={'lg'}>Join Call</Button>
-              <Button variant={'secondary'} className="flex-1/3 bg-zinc-200" size={'lg'}>Cancel</Button>
+              <Button className="flex-2/3 text-lg" size={'lg'}>
+                {t("dashboard_join_call")}
+              </Button>
+              <Button variant={'secondary'} className="flex-1/3 bg-zinc-200" size={'lg'}>{t("dashboard_cancel")}</Button>
             </div>
           </div>
 
           <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
-            <span className="text-xl font-medium">Booking Requests</span>
+            <span className="text-xl font-medium">{t("dashboard_booking_requests")}</span>
 
             <Accordion
               defaultValue="item-0"
@@ -89,16 +91,16 @@ const Dashboard = () => {
                   <AccordionContent className="pl-8 flex flex-col gap-3 text-md">
                     <div className="flex flex-col gap-1 text-[15px]">
                       <p className="text-muted-foreground">
-                        Date: <span className="text-black">{date}</span>
+                        {t("dashboard_date")}: <span className="text-black">{date}</span>
                       </p>
                       <p className="text-muted-foreground">
-                        Package: <span className="text-black">{plan}</span>
+                        {t("dashboard_package")}: <span className="text-black">{plan}</span>
                       </p>
                     </div>
 
                     <div className="flex flex-row gap-2">
-                      <Button className="flex-1" size={'sm'}>Accept</Button>
-                      <Button className="flex-1 bg-zinc-200" size={'sm'} variant={'secondary'}>Decline</Button>
+                      <Button className="flex-1" size={'sm'}>{t("dashboard_accept")}</Button>
+                      <Button className="flex-1 bg-zinc-200" size={'sm'} variant={'secondary'}>{t("dashboard_decline")}</Button>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -106,27 +108,27 @@ const Dashboard = () => {
             </Accordion>
           </div>
           <div className="flex flex-col gap-3 bg-zinc-100 p-4 rounded-[8px]">
-            <span className="text-xl font-medium">Earnings & Ratings</span>
+            <span className="text-xl font-medium">{t("dashboard_earnings_ratings")}</span>
 
             <div className="flex flex-col gap-1 py-2">
               <p className="flex flex-row items-center gap-2">
                 <Activity size={18} />
-                142,600 ETB
+                142,600 {t("dashboard_earnings_amount")}
               </p>
 
               <p className="flex flex-row items-center gap-2">
                 <Check size={18} />
-                17 Sessions Completed
+                17 {t("dashboard_sessions_completed")}
               </p>
 
               <p className="flex flex-row items-center gap-2">
                 <X size={18} />
-                6 Declined
+                6 {t("dashboard_declined")}
               </p>
 
               <p className="flex flex-row items-center gap-2">
                 <Star size={18} />
-                4.5 Rating
+                4.5 {t("dashboard_rating")}
               </p>
             </div>
           </div>

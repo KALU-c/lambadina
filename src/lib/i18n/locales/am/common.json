@@ -4,7 +4,6 @@
   "profile": "መገለጫ",
   "categories": "ምድቦች",
   "about_us": "ስለ እኛ",
-  "change_language": "ቋንቋ ቀይር",
   "language_changed_to": "ቋንቋ ወደ {{lang}} ተቀይሯል",
   "logout": "ውጣ",
   "login": "ግባ",
@@ -126,5 +125,24 @@
   "home_subscribe": "Sign up free as a client or advisor",
   "home_subscribe_button": "Submit",
 
-  "dashboard": "ዳሽቦርድ"
+  "dashboard": "ዳሽቦርድ",
+  "dashboard_upcoming_call": "ቀጣይ ጥሪ",
+  "dashboard_booking_requests": "የተያዙ ጥያቄዎች",
+  "dashboard_earnings_ratings": "ገቢ እና ደረጃዎች",
+  "dashboard_join_call": "ጥሪ ይቀላቀሉ",
+  "dashboard_cancel": "ይቅር",
+  "dashboard_accept": "ይቀበሉ",
+  "dashboard_decline": "ይክደዉ",
+  "dashboard_date": "ቀን",
+  "dashboard_package": "ፓኬጅ",
+  "dashboard_earnings_amount": "ብር",
+  "dashboard_sessions_completed": "ክፍሎች ተጠናቅቋል",
+  "dashboard_declined": "ተተውቷል",
+  "dashboard_rating": "ደረጃ",
+
+  "change_language": "ቋንቋ ቀይር",
+  "select_language": "ቋንቋ ይምረጡ",
+  "language_amharic": "አማርኛ",
+  "language_english": "እንግሊዝኛ",
+  "language_afaan_oromo": "ኦሮምኛ"
 }

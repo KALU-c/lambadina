@@ -15,12 +15,10 @@ export const playNotificationSound = () => {
   })
 }
 
-export const changeLanguage = () => {
-  const newLang = i18n.language === "en" ? "am" : "en";
-
+export const changeLanguage = (newLang: string) => {
   i18n.changeLanguage(newLang);
   localStorage.setItem("lambadina_i18nextLgn", newLang);
 
-  toast.success(t("language_changed_to", { lang: newLang === "en" ? "English" : "Amharic" }));
+  toast.success(t("language_changed_to", { lang: newLang === "en" ? "English" : newLang === "am" ? "Amharic" : "Afaan Oromo" }));
   playNotificationSound();
 };

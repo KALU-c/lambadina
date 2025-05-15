@@ -4,7 +4,6 @@
   "profile": "Profile",
   "categories": "Categories",
   "about_us": "About Us",
-  "change_language": "Change Language",
   "language_changed_to": "Language changed to {{lang}}",
   "logout": "Logout",
   "login": "Login",
@@ -126,5 +125,24 @@
   "home_subscribe": "Subscribe to our newsletter",
   "home_subscribe_button": "Submit",
 
-  "dashboard": " Dashboard"
+  "dashboard": " Dashboard",
+  "dashboard_upcoming_call": "Upcoming Call",
+  "dashboard_booking_requests": "Booking Requests",
+  "dashboard_earnings_ratings": "Earnings & Ratings",
+  "dashboard_join_call": "Join Call",
+  "dashboard_cancel": "Cancel",
+  "dashboard_accept": "Accept",
+  "dashboard_decline": "Decline",
+  "dashboard_date": "Date",
+  "dashboard_package": "Package",
+  "dashboard_earnings_amount": "ETB",
+  "dashboard_sessions_completed": "Sessions Completed",
+  "dashboard_declined": "Declined",
+  "dashboard_rating": "Rating",
+
+  "change_language": "Change Language",
+  "select_language": "Select Language",
+  "language_amharic": "Amharic",
+  "language_english": "English",
+  "language_afaan_oromo": "Afaan Oromo"
 }
