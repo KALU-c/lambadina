@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-// import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +21,9 @@ import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
 import axios from "axios";
 import { toast } from "sonner";
+import type { MentorProfile } from "@/types/mentor";
+import { Textarea } from "../ui/textarea";
+import { Switch } from "../ui/switch";
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
@@ -36,19 +38,15 @@ const profileFormSchema = z.object({
   email: z.string().email({
     message: i18n.t("zod_email_invalid"),
   }),
-  // currentRole: z.string().min(2, {
-  //   message: i18n.t("zod_current_role_min"),
-  // }),
-  // experienceLevel: z.string().min(1, {
-  //   message: i18n.t("zod_experience_level_required"),
-  // }),
-  // expertise: z.string().min(2, {
-  //   message: i18n.t("zod_expertise_min"),
-  // }),
-  // bio: z.string().min(10, {
-  //   message: i18n.t("zod_bio_min"),
-  // }),
+  bio: z.string().min(10, {
+    message: i18n.t("zod_bio_min"),
+  }),
+  price_per_minute: z.string().min(1, {
+    message: i18n.t("zod_bio_min"),
+  }),
+  is_available: z.boolean()
 });
+
 
 const Profile = () => {
   const { t } = useTranslation()
@@ -65,6 +63,9 @@ const Profile = () => {
       username: user?.username,
       phoneNumber: "",
       email: "",
+      bio: "",
+      price_per_minute: "",
+      is_available: true
     },
   });
 
@@ -72,22 +73,51 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
           headers: {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json"
           }
         });
-        const data = await response.json();
-        console.log(accessToken)
-        console.log(data)
 
-        form.reset({
-          fullName: `${data.first_name || ''} ${data.last_name || ''}`,
-          username: data.username,
-          phoneNumber: data.phone_number || '',
-          email: data.email,
-        });
+        const data = response.data;
+
+        if (user?.user_type === "mentor") {
+          const allMentorsResponse: { data: MentorProfile[] } = await axios.get(`${import.meta.env.VITE_API_URL}/api/mentors/mentors`);
+
+          console.log(allMentorsResponse.data)
+
+          const currentMentor: MentorProfile | undefined = allMentorsResponse.data.find(mentor => mentor.user.id === user?.id);
+
+          const mentorResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${currentMentor?.id}`, {
+            headers: {
+              "Authorization": `Bearer ${accessToken}`,
+              "Content-Type": "application/json"
+            }
+          });
+
+          const mentorData: MentorProfile = mentorResponse.data;
+
+          console.log(mentorData)
+
+          form.reset({
+            fullName: `${data.first_name || ''} ${data.last_name || ''}`,
+            username: data.username,
+            phoneNumber: data.phone_number || '',
+            email: data.email,
+            bio: mentorData.bio ?? '',
+            price_per_minute: mentorData.price_per_minute ?? '',
+            is_available: mentorData.is_available ?? true
+          })
+        } else {
+          form.reset({
+            fullName: `${data.first_name || ''} ${data.last_name || ''}`,
+            username: data.username,
+            phoneNumber: data.phone_number || '',
+            email: data.email,
+          });
+        }
+
 
         setLoading(false);
       } catch (err) {
@@ -118,39 +148,38 @@ const Profile = () => {
         }
       });
 
+
       if (response.status === 200) {
-        console.log(response.data)
         toast.success("Profile updated successfully!");
-        localStorage.setItem("user", response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
         setIsEditing(false);
       } else {
         toast.error("Failed to update profile.");
       }
+
+      if (user?.user_type === "mentor") {
+        const updateMentor = {
+          bio: values.bio,
+          price_per_minute: values.price_per_minute,
+          is_available: values.is_available
+        }
+
+        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/mentors/mentor/update`, updateMentor, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.status === 200) {
+          toast.success("Mentor profile updated successfully!");
+        } else {
+          toast.error("Failed to update profile.");
+        }
+      }
     } catch (err) {
       console.error("Error updating profile", err);
     }
-    // try {
-    //   const response = await fetch(`/api/users/${user?.id}`, {
-    //     method: "PATCH",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     // body: JSON.stringify({
-    //     //   bio: values.bio,
-    //     //   categories: values.expertise.split(",").map((name) => ({ name })),
-    //     // }),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to update profile.");
-    //   }
-
-    //   alert("Profile updated successfully!");
-    //   setIsEditing(false);
-    // } catch {
-    //   console.error("Error updating profile");
-    //   alert("Failed to update profile.");
-    // }
   };
 
   if (loading) {
@@ -171,8 +200,8 @@ const Profile = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* Personal Information */}
             <div className="pt-4">
-              <div className="flex flex-row gap-2 font-medium text-lg mb-4">
-                <User2 />
+              <div className="flex flex-row gap-2 font-medium text-lg mb-4 items-center">
+                <User2 size={18} />
                 {t("personal_information")}
               </div>
 
@@ -249,71 +278,57 @@ const Profile = () => {
             </div>
 
             {/* Professional Information */}
-            {/* <div className="pt-4">
-              <div className="flex flex-row gap-2 font-medium text-lg mb-4">
-                <User2 />
-                {t("profession_information")}
-              </div>
+            {user?.user_type === "mentor" && (
+              <div className="pt-4">
+                <div className="flex flex-row gap-2 font-medium text-lg mb-4 items-center">
+                  <User2 size={18} />
+                  {t("profession_information")}
+                </div>
 
-              <div className="flex flex-col space-y-4">
-                <FormField
-                  control={form.control}
-                  name="currentRole"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("current_role")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="experienceLevel"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("experience_level")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="expertise"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("expertise")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-col space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="price_per_minute"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Price Per Minute</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-zinc-100 h-10"
+                            disabled={!isEditing}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="is_available"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center gap-4">
+                        <FormLabel className="text-md">Available</FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            disabled={!isEditing}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div> */}
+            )}
+
 
             {/* Profile Picture and Bio */}
             <div className="pt-4">
-              <div className="flex flex-row gap-2 font-medium text-lg mb-4">
-                <User2 />
+              <div className="flex flex-row gap-2 font-medium text-lg mb-4 items-center">
+                <User2 size={18} />
                 {t("profile_picture_and_bio")}
               </div>
 
@@ -325,23 +340,25 @@ const Profile = () => {
                   {t("upload_profile_picture")}
                 </div>
 
-                {/* <FormField
-                  control={form.control}
-                  name="bio"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("bio")}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          className="bg-zinc-100 h-52"
-                          disabled={!isEditing}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
+                {user?.user_type === "mentor" && (
+                  <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("bio")}</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="bg-zinc-100 h-52"
+                            disabled={!isEditing}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
               </div>
             </div>
 
