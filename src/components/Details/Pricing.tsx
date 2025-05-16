@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid'
 import { useAuth } from "@/hooks/useAuth"
 import { Link } from "react-router"
 import type { MentorProfile } from "@/types/mentor"
+import { toast } from "sonner"
 
 type PricingProps = {
   ref: React.RefObject<null | HTMLDivElement>
@@ -12,7 +13,7 @@ type PricingProps = {
 }
 
 const Pricing = ({ ref, mentor }: PricingProps) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [txRef, setTxRef] = useState("");
 
   return (
@@ -49,9 +50,19 @@ const Pricing = ({ ref, mentor }: PricingProps) => {
           <input type="hidden" name="return_url" value={import.meta.env.VITE_BASE_URL} />
 
           {isAuthenticated ? (
-            <Button size={'xlg'} className="text-black w-full" type="submit">
-              Book Now
-            </Button>
+            <>
+              {(user?.first_name && user.last_name) ? (
+                <Button size={'xlg'} className="text-black w-full">
+                  Book Now
+                </Button>
+              ) : (
+                <Link to={'/profile'} onClick={() => toast.info('Please complete your profile to book a session')}>
+                  <Button size={'xlg'} className="text-black w-full">
+                    Book Now
+                  </Button>
+                </Link>
+              )}
+            </>
           ) : (
             <Link to={'/login'}>
               <Button size={'xlg'} className="text-black w-full">
