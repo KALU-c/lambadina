@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import enCommon from './locales/en/common.json'
 import amCommon from './locales/am/common.json'
 import omCommon from './locales/om/common.json'
+import tgCommon from './locales/tg/common.json'
 
 const savedLanguage = localStorage.getItem('lambadina_i18nextLgn') || 'en'
 
@@ -21,6 +22,9 @@ i18n
       },
       om: {
         translation: omCommon
+      },
+      tg: {
+        translation: tgCommon
       }
     },
     lng: savedLanguage, // if you're using a language detector, do not define the lng option

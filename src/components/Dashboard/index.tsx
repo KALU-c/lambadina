@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks/useAuth"
 import { Button } from "../ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion"
 import { Activity, Check, Star, X } from "lucide-react"
+import { useEffect } from "react"
+import axios from "axios"
 
 
 const items = [
@@ -36,7 +38,27 @@ const items = [
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, accessToken } = useAuth();
+  // const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get('url', {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchBookings();
+  }, [accessToken]);
 
   return (
     <main className="pt-[10px] flex flex-col">

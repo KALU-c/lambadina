@@ -144,5 +144,6 @@
   "select_language": "Select Language",
   "language_amharic": "Amharic",
   "language_english": "English",
-  "language_afaan_oromo": "Afaan Oromo"
+  "language_afaan_oromo": "Afaan Oromo",
+  "language_tigrigna": "Tigrigna"
 }

@@ -46,6 +46,7 @@ export default function ChangeLanguage() {
           <SelectItem value="am">{t("language_amharic")}</SelectItem>
           <SelectItem value="en">{t("language_english")}</SelectItem>
           <SelectItem value="om">{t("language_afaan_oromo")}</SelectItem>
+          <SelectItem value="tg">{t("language_tigrigna")}</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
