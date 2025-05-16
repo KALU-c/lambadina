@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       const profileData: UserType = response.data;
+      // TODO - change this
       setUser(profileData);
       localStorage.setItem("user", JSON.stringify(profileData));
     } catch {

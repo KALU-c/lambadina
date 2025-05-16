@@ -17,7 +17,7 @@ import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { Category } from "@/types/mentor";
+// import type { Category } from "@/types/mentor";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
@@ -75,46 +75,46 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        if (user?.user_type !== "client") {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mentors/mentors/${user?.id}`);
-          const data = await response.json();
+        // if (user?.user_type !== "client") {
+        //   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`);
+        //   const data = await response.json();
 
-          form.reset({
-            fullName: `${data.user.first_name} ${data.user.last_name}`,
-            username: data.user.username,
-            phoneNumber: data.user.phone_number,
-            email: data.user.email,
-            currentRole: "", // Not provided by API
-            experienceLevel: "", // Not provided by API
-            expertise: data.categories.map((c: Category) => c.name).join(", "),
-            bio: data.bio,
-          });
-        } else {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/profile/${user?.id}`, {
-            headers: {
-              "Authorization": `Bearer ${accessToken}`,
-              "Content-Type": "application/json"
-            }
-          });
-          const data = await response.json();
-          console.log(accessToken)
-          console.log(data)
+        //   form.reset({
+        //     fullName: `${data.first_name || ''} ${data.last_name || ''}`,
+        //     username: data.username,
+        //     phoneNumber: data.phone_number ?? '',
+        //     email: data.email,
+        //     currentRole: "", // Not provided by API
+        //     experienceLevel: "", // Not provided by API
+        //     expertise: data.categories.map((c: Category) => c.name).join(", "),
+        //     bio: data.bio,
+        //   });
+        // } else {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+          }
+        });
+        const data = await response.json();
+        console.log(accessToken)
+        console.log(data)
 
-          form.reset({
-            fullName: `${data.user.first_name} ${data.user.last_name}`,
-            username: data.user.username,
-            phoneNumber: data.user.phone_number,
-            email: data.user.email,
-            currentRole: "", // Not provided by API
-            experienceLevel: "", // Not provided by API
-            expertise: "", // Not provided by API
-            bio: "", // Not provided by API
-          });
-        }
+        form.reset({
+          fullName: `${data.first_name || ''} ${data.last_name || ''}`,
+          username: data.username,
+          phoneNumber: data.phone_number || '',
+          email: data.email,
+          currentRole: "", // Not provided by API
+          experienceLevel: "", // Not provided by API
+          expertise: "", // Not provided by API
+          bio: "", // Not provided by API
+        });
+        // }
 
         setLoading(false);
-      } catch {
-        console.error("Error fetching profile");
+      } catch (err) {
+        console.error("Error fetching profile", err);
         setLoading(false);
       }
     };
