@@ -17,6 +17,7 @@ export interface UserType {
 
 type AuthContextType = {
   user: UserType | null;
+  setUser: (user: UserType | null) => void;
   accessToken: string | null;
   isLoading: boolean;
   register: (values: z.infer<typeof registerSchema>) => Promise<void>;

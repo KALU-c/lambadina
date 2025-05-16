@@ -13,14 +13,15 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+// import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import type { Category } from "@/types/mentor";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
+import axios from "axios";
+import { toast } from "sonner";
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
@@ -35,18 +36,18 @@ const profileFormSchema = z.object({
   email: z.string().email({
     message: i18n.t("zod_email_invalid"),
   }),
-  currentRole: z.string().min(2, {
-    message: i18n.t("zod_current_role_min"),
-  }),
-  experienceLevel: z.string().min(1, {
-    message: i18n.t("zod_experience_level_required"),
-  }),
-  expertise: z.string().min(2, {
-    message: i18n.t("zod_expertise_min"),
-  }),
-  bio: z.string().min(10, {
-    message: i18n.t("zod_bio_min"),
-  }),
+  // currentRole: z.string().min(2, {
+  //   message: i18n.t("zod_current_role_min"),
+  // }),
+  // experienceLevel: z.string().min(1, {
+  //   message: i18n.t("zod_experience_level_required"),
+  // }),
+  // expertise: z.string().min(2, {
+  //   message: i18n.t("zod_expertise_min"),
+  // }),
+  // bio: z.string().min(10, {
+  //   message: i18n.t("zod_bio_min"),
+  // }),
 });
 
 const Profile = () => {
@@ -64,10 +65,6 @@ const Profile = () => {
       username: user?.username,
       phoneNumber: "",
       email: "",
-      currentRole: "",
-      experienceLevel: "",
-      expertise: "",
-      bio: "",
     },
   });
 
@@ -75,21 +72,6 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // if (user?.user_type !== "client") {
-        //   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`);
-        //   const data = await response.json();
-
-        //   form.reset({
-        //     fullName: `${data.first_name || ''} ${data.last_name || ''}`,
-        //     username: data.username,
-        //     phoneNumber: data.phone_number ?? '',
-        //     email: data.email,
-        //     currentRole: "", // Not provided by API
-        //     experienceLevel: "", // Not provided by API
-        //     expertise: data.categories.map((c: Category) => c.name).join(", "),
-        //     bio: data.bio,
-        //   });
-        // } else {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
           headers: {
             "Authorization": `Bearer ${accessToken}`,
@@ -105,12 +87,7 @@ const Profile = () => {
           username: data.username,
           phoneNumber: data.phone_number || '',
           email: data.email,
-          currentRole: "", // Not provided by API
-          experienceLevel: "", // Not provided by API
-          expertise: "", // Not provided by API
-          bio: "", // Not provided by API
         });
-        // }
 
         setLoading(false);
       } catch (err) {
@@ -123,28 +100,57 @@ const Profile = () => {
   }, [form, user?.id, user?.user_type, accessToken]);
 
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
+    const formattedUser = {
+      first_name: values.fullName.split(" ")[0],
+      last_name: values.fullName.split(" ")[1],
+      username: values.username,
+      phone_number: values.phoneNumber,
+      email: values.email,
+      user_type: user?.user_type,
+      profile_picture: user?.profile_picture,
+    }
+
     try {
-      const response = await fetch(`/api/mentors/mentors/${user?.id}`, {
-        method: "PATCH",
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, formattedUser, {
         headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          bio: values.bio,
-          categories: values.expertise.split(",").map((name) => ({ name })),
-        }),
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to update profile.");
+      if (response.status === 200) {
+        console.log(response.data)
+        toast.success("Profile updated successfully!");
+        localStorage.setItem("user", response.data);
+        setIsEditing(false);
+      } else {
+        toast.error("Failed to update profile.");
       }
-
-      alert("Profile updated successfully!");
-      setIsEditing(false);
-    } catch {
-      console.error("Error updating profile");
-      alert("Failed to update profile.");
+    } catch (err) {
+      console.error("Error updating profile", err);
     }
+    // try {
+    //   const response = await fetch(`/api/users/${user?.id}`, {
+    //     method: "PATCH",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     // body: JSON.stringify({
+    //     //   bio: values.bio,
+    //     //   categories: values.expertise.split(",").map((name) => ({ name })),
+    //     // }),
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error("Failed to update profile.");
+    //   }
+
+    //   alert("Profile updated successfully!");
+    //   setIsEditing(false);
+    // } catch {
+    //   console.error("Error updating profile");
+    //   alert("Failed to update profile.");
+    // }
   };
 
   if (loading) {
@@ -243,7 +249,7 @@ const Profile = () => {
             </div>
 
             {/* Professional Information */}
-            <div className="pt-4">
+            {/* <div className="pt-4">
               <div className="flex flex-row gap-2 font-medium text-lg mb-4">
                 <User2 />
                 {t("profession_information")}
@@ -302,7 +308,7 @@ const Profile = () => {
                   )}
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* Profile Picture and Bio */}
             <div className="pt-4">
@@ -319,7 +325,7 @@ const Profile = () => {
                   {t("upload_profile_picture")}
                 </div>
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="bio"
                   render={({ field }) => (
@@ -335,7 +341,7 @@ const Profile = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
               </div>
             </div>
 
@@ -351,11 +357,11 @@ const Profile = () => {
               <div className="py-4 flex flex-row w-full items-center gap-2">
                 {isEditing ? (
                   <>
-                    <Button type="submit" className="flex-4/6" disabled>
+                    <Button type="submit" className="flex-4/6">
                       {t("save_changes")}
                     </Button>
                     <Button
-                      disabled
+                      // disabled
                       type="button"
                       variant="secondary"
                       className="flex-2/4"
@@ -366,7 +372,7 @@ const Profile = () => {
                   </>
                 ) : (
                   <Button
-                    disabled
+                    // disabled
                     type="button"
                     className="w-full"
                     onClick={() => setIsEditing(true)}

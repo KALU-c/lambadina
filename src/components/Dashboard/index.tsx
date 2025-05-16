@@ -19,7 +19,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get('https://lambadina.zoedigitalcard.com/api/bookings/list', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/bookings/list`, {
           headers: {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json"
