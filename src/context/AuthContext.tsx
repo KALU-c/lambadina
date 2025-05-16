@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("refreshToken", refresh);
 
       toast.success("Account created and logged in successfully 🎉");
-      navigate("/");
+      navigate("/profile");
     } catch (err) {
       console.error(err);
       if (err instanceof AxiosError) {

@@ -18,11 +18,7 @@ type SupportedLanguages = 'en' | 'am' | 'om'
 export default function ChangeLanguage() {
   const { t } = useTranslation();
 
-  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>('en');
-
-  useEffect(() => {
-    setCurrentLanguage(i18n.language as SupportedLanguages)
-  }, []);
+  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>(i18n.language as SupportedLanguages);
 
   useEffect(() => {
     i18n.changeLanguage(currentLanguage)
