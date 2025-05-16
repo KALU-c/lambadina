@@ -1,15 +1,15 @@
-import { BadgeCheck, Heart } from "lucide-react"
+import { BadgeCheck } from "lucide-react"
 import {
   Card,
   CardContent,
 } from "@/components/ui/card"
-import { useState } from "react"
+// import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router"
 import type { MentorProfile } from "@/types/mentor"
 
 const ExpertsCard = ({ mentor }: { mentor: MentorProfile }) => {
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
 
   const {
     id,
@@ -29,12 +29,12 @@ const ExpertsCard = ({ mentor }: { mentor: MentorProfile }) => {
               className="w-[210px] h-[240px] object-cover rounded-[8px]"
             />
           </Link>
-          <Heart
+          {/* <Heart
             className="absolute right-3 top-3"
             color={liked ? "red" : "#cdcbca"}
             fill={liked ? "red" : "transparent"}
             onClick={() => setLiked(!liked)}
-          />
+          /> */}
           <Badge
             className="absolute bottom-2 left-2"
             variant={'secondary'}
