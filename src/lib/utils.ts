@@ -22,3 +22,19 @@ export const changeLanguage = (newLang: string) => {
   toast.success(t("language_changed_to", { lang: newLang === "en" ? "English" : newLang === "am" ? "Amharic" : "Afaan Oromo" }));
   playNotificationSound();
 };
+
+export function toBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

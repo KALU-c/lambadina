@@ -9,6 +9,7 @@ import { Activity, Check, Star, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import type { Booking } from "@/types/booking"
+import { toast } from "sonner"
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -26,6 +27,8 @@ const Dashboard = () => {
           }
         });
 
+        console.log(response.data)
+
         if (response.data) {
           const filterBooked = response.data.filter((bookings: Booking) => bookings.status === 'confirmed');
           const filterPending = response.data.filter((bookings: Booking) => bookings.status === 'pending');
@@ -33,7 +36,8 @@ const Dashboard = () => {
           setBookings(filterPending);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        toast.error("Error fetching bookings")
       }
     }
 

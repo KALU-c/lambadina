@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import DetailsNavbar from "../Details/layout/navbar";
 import Footer from "../Footer";
-import { Camera, User2 } from "lucide-react";
+import { Loader, User2 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -19,11 +19,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import type { MentorProfile } from "@/types/mentor";
 import { Textarea } from "../ui/textarea";
 import { Switch } from "../ui/switch";
+import { AvatarUpload } from "./UploadImage";
+
+type UpdateMentorProfile = {
+  user: {
+    username?: string;
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+    phone_number?: string;
+    user_type?: string;
+    profile_picture?: string | null;
+  };
+  bio: string;
+  categories: number[];
+  price_per_minute: string;
+  is_available: boolean;
+};
+
 
 const profileFormSchema = z.object({
   fullName: z.string().min(2, {
@@ -44,7 +62,8 @@ const profileFormSchema = z.object({
   price_per_minute: z.string().min(1, {
     message: i18n.t("zod_bio_min"),
   }),
-  is_available: z.boolean()
+  is_available: z.boolean(),
+  profile_picture: z.string()
 });
 
 
@@ -54,6 +73,7 @@ const Profile = () => {
   const { user, accessToken } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -65,27 +85,18 @@ const Profile = () => {
       email: "",
       bio: "",
       price_per_minute: "",
-      is_available: true
+      is_available: true,
+      profile_picture: ""
     },
   });
 
 
   useEffect(() => {
     const fetchProfile = async () => {
+      setIsLoading(true);
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
-          headers: {
-            "Authorization": `Bearer ${accessToken}`,
-            "Content-Type": "application/json"
-          }
-        });
-
-        const data = response.data;
-
         if (user?.user_type === "mentor") {
           const allMentorsResponse: { data: MentorProfile[] } = await axios.get(`${import.meta.env.VITE_API_URL}/api/mentors/mentors`);
-
-          console.log(allMentorsResponse.data)
 
           const currentMentor: MentorProfile | undefined = allMentorsResponse.data.find(mentor => mentor.user.id === user?.id);
 
@@ -98,18 +109,25 @@ const Profile = () => {
 
           const mentorData: MentorProfile = mentorResponse.data;
 
-          console.log(mentorData)
-
           form.reset({
-            fullName: `${data.first_name || ''} ${data.last_name || ''}`,
-            username: data.username,
-            phoneNumber: data.phone_number || '',
-            email: data.email,
+            fullName: `${mentorData.user.first_name || ''} ${mentorData.user.last_name || ''}`,
+            username: mentorData.user.username,
+            phoneNumber: mentorData.user.phone_number || '',
+            email: mentorData.user.email,
             bio: mentorData.bio ?? '',
             price_per_minute: mentorData.price_per_minute ?? '',
             is_available: mentorData.is_available ?? true
           })
         } else {
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile/`, {
+            headers: {
+              "Authorization": `Bearer ${accessToken}`,
+              "Content-Type": "application/json"
+            }
+          });
+
+          const data = response.data;
+
           form.reset({
             fullName: `${data.first_name || ''} ${data.last_name || ''}`,
             username: data.username,
@@ -123,6 +141,8 @@ const Profile = () => {
       } catch (err) {
         console.error("Error fetching profile", err);
         setLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -130,61 +150,84 @@ const Profile = () => {
   }, [form, user?.id, user?.user_type, accessToken]);
 
   const onSubmit = async (values: z.infer<typeof profileFormSchema>) => {
-    const formattedUser = {
-      first_name: values.fullName.split(" ")[0],
-      last_name: values.fullName.split(" ")[1],
-      username: values.username,
-      phone_number: values.phoneNumber,
-      email: values.email,
-      user_type: user?.user_type,
-      profile_picture: user?.profile_picture,
-    }
-
+    setIsLoading(true);
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, formattedUser, {
-        headers: {
-          "Authorization": `Bearer ${accessToken}`,
-          "Content-Type": "application/json"
-        }
-      });
-
-
-      if (response.status === 200) {
-        toast.success("Profile updated successfully!");
-        localStorage.setItem("user", JSON.stringify(response.data));
-        setIsEditing(false);
-      } else {
-        toast.error("Failed to update profile.");
-      }
-
       if (user?.user_type === "mentor") {
-        const updateMentor = {
+        const updateMentor: UpdateMentorProfile = {
+          user: {
+            first_name: values.fullName.split(" ")[0],
+            last_name: values.fullName.split(" ")[1],
+            // username: values.username,
+            phone_number: values.phoneNumber,
+            email: values.email,
+            user_type: user?.user_type,
+            profile_picture: user?.profile_picture,
+          },
+          categories: [], // TODO - add categories choice
           bio: values.bio,
           price_per_minute: values.price_per_minute,
           is_available: values.is_available
         }
 
-        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/mentors/mentor/update`, updateMentor, {
+        // console.log(updateMentor);
+
+        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/mentors/mentor/update/`, updateMentor, {
           headers: {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json"
           }
         });
 
+        // console.log(response.data)
         if (response.status === 200) {
           toast.success("Mentor profile updated successfully!");
+          localStorage.setItem("mentor", JSON.stringify(response.data));
+          setIsEditing(false);
+        } else {
+          toast.error("Failed to update profile.");
+        }
+      } else {
+        const formattedUser = {
+          first_name: values.fullName.split(" ")[0],
+          last_name: values.fullName.split(" ")[1],
+          // username: values.username,
+          phone_number: values.phoneNumber,
+          email: values.email,
+          user_type: user?.user_type,
+          profile_picture: user?.profile_picture,
+        }
+
+        const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/users/profile/`, formattedUser, {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+
+        if (response.status === 200) {
+          toast.success("Profile updated successfully!");
+          localStorage.setItem("user", JSON.stringify(response.data));
+          setIsEditing(false);
         } else {
           toast.error("Failed to update profile.");
         }
       }
+
     } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.user.username[0] ?? err.message);
+      }
       console.error("Error updating profile", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   if (loading) {
     return <div className="p-10 text-center">{t("loading_profile")}</div>;
   }
+
 
   return (
     <main className="pt-[10px] flex flex-col">
@@ -215,7 +258,7 @@ const Profile = () => {
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
+                          disabled={!isEditing || isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -232,7 +275,8 @@ const Profile = () => {
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
+                          disabled
+                          // disabled={!isEditing || isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -249,7 +293,7 @@ const Profile = () => {
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
+                          disabled={!isEditing || isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -266,7 +310,7 @@ const Profile = () => {
                       <FormControl>
                         <Input
                           className="bg-zinc-100 h-10"
-                          disabled={!isEditing}
+                          disabled={!isEditing || isLoading}
                           {...field}
                         />
                       </FormControl>
@@ -295,7 +339,7 @@ const Profile = () => {
                         <FormControl>
                           <Input
                             className="bg-zinc-100 h-10"
-                            disabled={!isEditing}
+                            disabled={!isEditing || isLoading}
                             {...field}
                           />
                         </FormControl>
@@ -313,7 +357,7 @@ const Profile = () => {
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
-                            disabled={!isEditing}
+                            disabled={!isEditing || isLoading}
                           />
                         </FormControl>
                         <FormMessage />
@@ -333,12 +377,18 @@ const Profile = () => {
               </div>
 
               <div className="flex flex-col space-y-4">
-                <div className="flex flex-row gap-2 items-center">
-                  <div className="p-4 bg-zinc-100 rounded-full">
-                    <Camera className="text-muted-foreground" />
-                  </div>
-                  {t("upload_profile_picture")}
-                </div>
+                <FormField
+                  control={form.control}
+                  name="profile_picture"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <AvatarUpload value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {user?.user_type === "mentor" && (
                   <FormField
@@ -350,7 +400,7 @@ const Profile = () => {
                         <FormControl>
                           <Textarea
                             className="bg-zinc-100 h-52"
-                            disabled={!isEditing}
+                            disabled={!isEditing || isLoading}
                             {...field}
                           />
                         </FormControl>
@@ -372,13 +422,14 @@ const Profile = () => {
               <Button variant="secondary" disabled>{t("update_password")}</Button>
 
               <div className="py-4 flex flex-row w-full items-center gap-2">
-                {isEditing ? (
+                {isEditing && (
                   <>
-                    <Button type="submit" className="flex-4/6">
+                    <Button type="submit" className="flex-4/6" disabled={isLoading}>
+                      <Loader className={isLoading ? "animate-spin" : "hidden"} />
                       {t("save_changes")}
                     </Button>
                     <Button
-                      // disabled
+                      disabled={isLoading}
                       type="button"
                       variant="secondary"
                       className="flex-2/4"
@@ -387,20 +438,21 @@ const Profile = () => {
                       {t("cancel")}
                     </Button>
                   </>
-                ) : (
-                  <Button
-                    // disabled
-                    type="button"
-                    className="w-full"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    {t("update_profile")}
-                  </Button>
                 )}
               </div>
             </div>
           </form>
         </Form>
+        {!isEditing && (
+          <Button
+            disabled={loading}
+            type="button"
+            className="w-full"
+            onClick={() => setIsEditing(true)}
+          >
+            {t("update_profile")}
+          </Button>
+        )}
       </div>
 
       <Footer />
